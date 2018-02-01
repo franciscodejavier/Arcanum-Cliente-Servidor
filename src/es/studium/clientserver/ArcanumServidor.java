@@ -1,6 +1,3 @@
-/*
- * Decompiled with CFR 0_123.
- */
 package es.studium.clientserver;
 
 import java.awt.Color;
@@ -38,21 +35,18 @@ import javax.swing.border.Border;
 import es.studium.math.Consule;
 import es.studium.math.Fondo;
 
-public class ArcanumServidor
-extends JFrame
-implements WindowListener,
-MouseListener,
-KeyListener {
+public class ArcanumServidor extends JFrame implements WindowListener, MouseListener, KeyListener {
     private static final long serialVersionUID = 1;
+    
     JTextField txtNumeroServidor = new JTextField();
-    JButton btnOk = new JButton("Ok");
-    Fondo fondo = new Fondo();
+    JButton btnOk = new JButton("Ok"); 					
+    Fondo fondo = new Fondo();							
+    Border raise = BorderFactory.createEtchedBorder(0);
     JScrollPane scrollPane = new JScrollPane(22, 32);
     JPanel panel = new JPanel();
     JLabel[] labels = new JLabel[1000];
     int contadorLineas = 0;
     int contador = 0;
-    Border raise = BorderFactory.createEtchedBorder(0);
     static String respuesta = "espera";
     GridBagConstraints gbc = new GridBagConstraints();
     JPasswordField txtNumeroSecreto = new JPasswordField();
@@ -72,7 +66,6 @@ KeyListener {
 
     public ArcanumServidor() {
         this.hiloBtnOkk = new Thread(new Runnable(){
-
             @Override
             public void run() {
                 ArcanumServidor.numeroSecretoServidor = ArcanumServidor.this.txtNumeroSecreto.getText();
@@ -85,6 +78,7 @@ KeyListener {
                 }
             }
         });
+        
         this.setLayout(null);
         this.setTitle("Arcanum Servidor");
         this.setLocationRelativeTo(null);
@@ -104,8 +98,8 @@ KeyListener {
         this.panel.setLayout(new GridBagLayout());
         this.gbc.insets = new Insets(1, 1, 1, 300);
         this.gbc.anchor = 18;
+      
         Thread hiloInicio = new Thread(new Runnable(){
-
             @Override
             public void run() {
                 ArcanumServidor.this.Encendido();
@@ -123,7 +117,6 @@ KeyListener {
                     ArcanumServidor.this.nuevaLinea("Servicio en escucha en puerto: 5555", "BLUE");
                     ArcanumServidor.this.miServicio = ArcanumServidor.this.socketServicio.accept();
                     Thread hilo = new Thread(new Runnable(){
-
                         @Override
                         public void run() {
                             while (ArcanumServidor.this.opcion) {
@@ -137,9 +130,9 @@ KeyListener {
                     ArcanumServidor.this.nuevaLinea("Error al abrir los sockets", "RED");
                 }
             }
-
         });
         hiloInicio.start();
+        
         this.addWindowListener(this);
         this.addMouseListener(this);
         this.addKeyListener(this);
@@ -151,16 +144,13 @@ KeyListener {
     }
 
     @Override
-    public void mouseClicked(MouseEvent me) {
-    }
+    public void mouseClicked(MouseEvent me) {}
 
     @Override
-    public void windowActivated(WindowEvent arg0) {
-    }
+    public void windowActivated(WindowEvent arg0) {}
 
     @Override
-    public void windowClosed(WindowEvent arg0) {
-    }
+    public void windowClosed(WindowEvent arg0) {}
 
     @Override
     public void windowClosing(WindowEvent arg0) {
@@ -173,53 +163,22 @@ KeyListener {
         }
     }
 
-    @Override
-    public void windowDeactivated(WindowEvent arg0) {
-    }
-
-    @Override
-    public void windowDeiconified(WindowEvent arg0) {
-    }
-
-    @Override
-    public void windowIconified(WindowEvent arg0) {
-    }
-
-    @Override
-    public void windowOpened(WindowEvent arg0) {
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent arg0) {
-    }
-
-    @Override
-    public void mouseExited(MouseEvent arg0) {
-    }
-
-    @Override
-    public void mousePressed(MouseEvent arg0) {
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent arg0) {
-    }
-
-    @Override
+    public void windowDeactivated(WindowEvent arg0) {}
+    public void windowDeiconified(WindowEvent arg0) {}
+    public void windowIconified(WindowEvent arg0) {}
+    public void windowOpened(WindowEvent arg0) {}
+    public void mouseEntered(MouseEvent arg0) {}
+    public void mouseExited(MouseEvent arg0) {}
+    public void mousePressed(MouseEvent arg0) {}
+    public void mouseReleased(MouseEvent arg0) {}
     public void keyPressed(KeyEvent ke) {
         if (ke.getKeyCode() == 10) {
             this.btnOk.doClick();
         }
     }
-
-    @Override
-    public void keyReleased(KeyEvent ke) {
-    }
-
-    @Override
-    public void keyTyped(KeyEvent ke) {
-    }
-
+    public void keyReleased(KeyEvent ke) {}
+    public void keyTyped(KeyEvent ke) {}
+    
     public void nuevaLinea(String texto, String color) {
         this.labels[this.contadorLineas] = new JLabel(texto);
         if (color.equals("RED")) {
@@ -387,6 +346,5 @@ KeyListener {
             this.enviarDatos(numeroServidor);
         }
     }
-
 }
 
