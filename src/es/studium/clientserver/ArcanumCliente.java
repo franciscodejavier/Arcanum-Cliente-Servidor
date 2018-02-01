@@ -1,6 +1,3 @@
-/*
- * Decompiled with CFR 0_123.
- */
 package es.studium.clientserver;
 
 import java.awt.Color;
@@ -38,12 +35,9 @@ import javax.swing.border.Border;
 import es.studium.math.Consule;
 import es.studium.math.Fondo;
 
-public class ArcanumCliente
-extends JFrame
-implements WindowListener,
-MouseListener,
-KeyListener {
+public class ArcanumCliente extends JFrame implements WindowListener, MouseListener, KeyListener {
     private static final long serialVersionUID = 1;
+    
     JTextField txtNumeroCliente = new JTextField();
     JButton btnOk = new JButton("Ok");
     Fondo fondo = new Fondo();
@@ -75,8 +69,8 @@ KeyListener {
     Thread hiloBtnOkk;
 
     public ArcanumCliente() {
+    	
         this.hiloBtnOkk = new Thread(new Runnable(){
-
             @Override
             public void run() {
                 ArcanumCliente.numeroSecretoCliente = ArcanumCliente.this.txtNumeroSecreto.getText();
@@ -89,6 +83,7 @@ KeyListener {
                 }
             }
         });
+        
         this.setLayout(null);
         this.setTitle("Arcanum Cliente");
         this.setLocationRelativeTo(null);
@@ -108,8 +103,8 @@ KeyListener {
         this.panel.setLayout(new GridBagLayout());
         this.gbc.insets = new Insets(1, 1, 1, 300);
         this.gbc.anchor = 18;
+       
         Thread hiloInicio = new Thread(new Runnable(){
-
             @Override
             public void run() {
                 ArcanumCliente.this.Encendido();
@@ -129,6 +124,7 @@ KeyListener {
             }
         });
         hiloInicio.start();
+        
         this.addWindowListener(this);
         this.addMouseListener(this);
         this.addKeyListener(this);
@@ -139,69 +135,27 @@ KeyListener {
         new es.studium.clientserver.ArcanumCliente();
     }
 
-    @Override
-    public void mouseClicked(MouseEvent me) {
-    }
+    public void mouseClicked(MouseEvent me) {}
+    public void windowActivated(WindowEvent arg0) {}
+    public void windowClosed(WindowEvent arg0) {}
+    public void windowClosing(WindowEvent arg0) {System.exit(0);}
+    public void windowDeactivated(WindowEvent arg0) {}
+    public void windowDeiconified(WindowEvent arg0) {}
+    public void windowIconified(WindowEvent arg0) {}
+    public void windowOpened(WindowEvent arg0) {}
+    public void mouseEntered(MouseEvent arg0) {}
+    public void mouseExited(MouseEvent arg0) {}
+    public void mousePressed(MouseEvent arg0) {}
+    public void mouseReleased(MouseEvent arg0) {}
 
-    @Override
-    public void windowActivated(WindowEvent arg0) {
-    }
-
-    @Override
-    public void windowClosed(WindowEvent arg0) {
-    }
-
-    @Override
-    public void windowClosing(WindowEvent arg0) {
-        System.exit(0);
-    }
-
-    @Override
-    public void windowDeactivated(WindowEvent arg0) {
-    }
-
-    @Override
-    public void windowDeiconified(WindowEvent arg0) {
-    }
-
-    @Override
-    public void windowIconified(WindowEvent arg0) {
-    }
-
-    @Override
-    public void windowOpened(WindowEvent arg0) {
-    }
-
-    @Override
-    public void mouseEntered(MouseEvent arg0) {
-    }
-
-    @Override
-    public void mouseExited(MouseEvent arg0) {
-    }
-
-    @Override
-    public void mousePressed(MouseEvent arg0) {
-    }
-
-    @Override
-    public void mouseReleased(MouseEvent arg0) {
-    }
-
-    @Override
     public void keyPressed(KeyEvent ke) {
         if (ke.getKeyCode() == 10) {
             this.btnOk.doClick();
         }
     }
-
-    @Override
-    public void keyReleased(KeyEvent ke) {
-    }
-
-    @Override
-    public void keyTyped(KeyEvent ke) {
-    }
+    
+    public void keyReleased(KeyEvent ke) {}
+    public void keyTyped(KeyEvent ke) {}
 
     public void nuevaLinea(String texto, String color) {
         this.labels[this.contadorLineas] = new JLabel(texto);
