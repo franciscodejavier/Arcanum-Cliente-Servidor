@@ -1,7 +1,7 @@
 /*
  * Decompiled with CFR 0_123.
  */
-package es.studium.math;
+package matematicas;
 
 public class Numerum {
     public static String NumeroAleatorio() {

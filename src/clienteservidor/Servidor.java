@@ -1,4 +1,4 @@
-package es.studium.clientserver;
+package clienteservidor;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -32,10 +32,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
-import es.studium.math.Consule;
-import es.studium.math.Fondo;
+import matematicas.Consule;
+import matematicas.Fondo;
 
-public class ArcanumServidor extends JFrame implements WindowListener, MouseListener, KeyListener {
+public class Servidor extends JFrame implements WindowListener, MouseListener, KeyListener {
     private static final long serialVersionUID = 1;
     
     JTextField txtNumeroServidor = new JTextField();
@@ -64,18 +64,18 @@ public class ArcanumServidor extends JFrame implements WindowListener, MouseList
     private boolean opcion = true;
     Thread hiloBtnOkk;
 
-    public ArcanumServidor() {
+    public Servidor() {
       
     	this.hiloBtnOkk = new Thread(new Runnable(){
             @Override
             public void run() {
-                ArcanumServidor.numeroSecretoServidor = ArcanumServidor.this.txtNumeroSecreto.getText();
-                if (ArcanumServidor.numeroSecretoServidor.length() != 4) {
-                    ArcanumServidor.this.nuevaLinea("[ERROR] 4 d\u00edgitos", "RED");
+                Servidor.numeroSecretoServidor = Servidor.this.txtNumeroSecreto.getText();
+                if (Servidor.numeroSecretoServidor.length() != 4) {
+                    Servidor.this.nuevaLinea("[ERROR] 4 d\u00edgitos", "RED");
                 } else {
-                    ArcanumServidor.this.Creacion2();
-                    ArcanumServidor.this.nuevaLinea("[!] Cifrando n\u00famero secreto", "WHITE");
-                    ArcanumServidor.this.nuevaLinea("[!] N\u00famero secreto cifrado", "GREEN");
+                    Servidor.this.Creacion2();
+                    Servidor.this.nuevaLinea("[!] Cifrando n\u00famero secreto", "WHITE");
+                    Servidor.this.nuevaLinea("[!] N\u00famero secreto cifrado", "GREEN");
                 }
             }
         });
@@ -103,32 +103,32 @@ public class ArcanumServidor extends JFrame implements WindowListener, MouseList
         Thread hiloInicio = new Thread(new Runnable(){
             @Override
             public void run() {
-                ArcanumServidor.this.Encendido();
-                ArcanumServidor.this.Creacion();
-                ArcanumServidor.this.btnOkk.addActionListener(event -> {
-                    ArcanumServidor.this.hiloBtnOkk.start();
+                Servidor.this.Encendido();
+                Servidor.this.Creacion();
+                Servidor.this.btnOkk.addActionListener(event -> {
+                    Servidor.this.hiloBtnOkk.start();
                 }
                 );
-                ArcanumServidor.this.btnOk.addActionListener(event -> {
-                    ArcanumServidor.this.BtnOk();
+                Servidor.this.btnOk.addActionListener(event -> {
+                    Servidor.this.BtnOk();
                 }
                 );
                 try {
-                    ArcanumServidor.this.socketServicio = new ServerSocket(5555);
-                    ArcanumServidor.this.nuevaLinea("Servicio en escucha en puerto: 5555", "BLUE");
-                    ArcanumServidor.this.miServicio = ArcanumServidor.this.socketServicio.accept();
+                    Servidor.this.socketServicio = new ServerSocket(5555);
+                    Servidor.this.nuevaLinea("Servicio en escucha en puerto: 5555", "BLUE");
+                    Servidor.this.miServicio = Servidor.this.socketServicio.accept();
                     Thread hilo = new Thread(new Runnable(){
                         @Override
                         public void run() {
-                            while (ArcanumServidor.this.opcion) {
-                                ArcanumServidor.this.recibirDatos();
+                            while (Servidor.this.opcion) {
+                                Servidor.this.recibirDatos();
                             }
                         }
                     });
                     hilo.start();
                 }
                 catch (Exception ex) {
-                    ArcanumServidor.this.nuevaLinea("Error al abrir los sockets", "RED");
+                    Servidor.this.nuevaLinea("Error al abrir los sockets", "RED");
                 }
             }
         });
@@ -141,7 +141,7 @@ public class ArcanumServidor extends JFrame implements WindowListener, MouseList
     }
 
     public static void main(String[] args) throws NumberFormatException, IOException, ClassNotFoundException, SQLException {
-        new es.studium.clientserver.ArcanumServidor();
+        new clienteservidor.Servidor();
     }
 
     @Override
@@ -217,7 +217,7 @@ public class ArcanumServidor extends JFrame implements WindowListener, MouseList
             this.salidaDatos.flush();
         }
         catch (IOException ex) {
-            Logger.getLogger(ArcanumServidor.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -259,7 +259,7 @@ public class ArcanumServidor extends JFrame implements WindowListener, MouseList
             }
         }
         catch (IOException ex) {
-            Logger.getLogger(ArcanumServidor.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -298,7 +298,7 @@ public class ArcanumServidor extends JFrame implements WindowListener, MouseList
             this.miServicio.close();
         }
         catch (IOException ex) {
-            Logger.getLogger(ArcanumServidor.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

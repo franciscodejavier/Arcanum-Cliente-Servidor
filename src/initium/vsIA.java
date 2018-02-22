@@ -1,4 +1,4 @@
-package es.studium.arcanum;
+package initium;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -22,12 +22,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
-import es.studium.ia.PatricIA;
-import es.studium.math.Consule;
-import es.studium.math.Fondo;
-import es.studium.math.Numerum;
+import ia.PatricIA;
+import matematicas.Consule;
+import matematicas.Fondo;
+import matematicas.Numerum;
 
-public class FiliusIA
+public class vsIA
 extends JFrame
 implements WindowListener,
 MouseListener,
@@ -50,7 +50,7 @@ KeyListener {
     JButton btnOkk = new JButton("Encrypt");
     static String numeroSecretoJugador = "";
 
-    public FiliusIA() {
+    public vsIA() {
         System.out.println("N\u00famero secreto IA: " + numeroSecretoIA);
         this.setLayout(null);
         this.setTitle("Arcanum Ludum");
@@ -76,72 +76,72 @@ KeyListener {
 
             @Override
             public void run() {
-                FiliusIA.this.labels[0] = new JLabel("[ok] Iniciando sistema");
-                FiliusIA.this.labels[0].setForeground(new Color(255, 255, 255, 255));
+                vsIA.this.labels[0] = new JLabel("[ok] Iniciando sistema");
+                vsIA.this.labels[0].setForeground(new Color(255, 255, 255, 255));
                 gbc.gridx = 0;
                 gbc.gridy = 0;
-                FiliusIA.this.panel.add((Component)FiliusIA.this.labels[0], gbc);
-                FiliusIA.this.scrollPane.setViewportView(FiliusIA.this.panel);
+                vsIA.this.panel.add((Component)vsIA.this.labels[0], gbc);
+                vsIA.this.scrollPane.setViewportView(vsIA.this.panel);
                 try {
                     Thread.sleep(200);
                 }
                 catch (Exception exception) {
                     // empty catch block
                 }
-                FiliusIA.this.labels[1] = new JLabel("[ok] Iniciando cargador de arranque");
-                FiliusIA.this.labels[1].setForeground(new Color(255, 255, 255, 255));
+                vsIA.this.labels[1] = new JLabel("[ok] Iniciando cargador de arranque");
+                vsIA.this.labels[1].setForeground(new Color(255, 255, 255, 255));
                 gbc.gridx = 0;
                 gbc.gridy = 1;
-                FiliusIA.this.panel.add((Component)FiliusIA.this.labels[1], gbc);
-                FiliusIA.this.scrollPane.setViewportView(FiliusIA.this.panel);
+                vsIA.this.panel.add((Component)vsIA.this.labels[1], gbc);
+                vsIA.this.scrollPane.setViewportView(vsIA.this.panel);
                 try {
                     Thread.sleep(200);
                 }
                 catch (Exception exception) {
                     // empty catch block
                 }
-                FiliusIA.this.labels[2] = new JLabel("[error] IA Intentando acceder");
-                FiliusIA.this.labels[2].setForeground(Color.RED);
+                vsIA.this.labels[2] = new JLabel("[error] IA Intentando acceder");
+                vsIA.this.labels[2].setForeground(Color.RED);
                 gbc.gridx = 0;
                 gbc.gridy = 2;
-                FiliusIA.this.panel.add((Component)FiliusIA.this.labels[2], gbc);
-                FiliusIA.this.scrollPane.setViewportView(FiliusIA.this.panel);
+                vsIA.this.panel.add((Component)vsIA.this.labels[2], gbc);
+                vsIA.this.scrollPane.setViewportView(vsIA.this.panel);
                 try {
                     Thread.sleep(500);
                 }
                 catch (Exception exception) {
                     // empty catch block
                 }
-                FiliusIA.this.labels[3] = new JLabel("[ok] Contratacando");
-                FiliusIA.this.labels[3].setForeground(Color.GREEN);
+                vsIA.this.labels[3] = new JLabel("[ok] Contratacando");
+                vsIA.this.labels[3].setForeground(Color.GREEN);
                 gbc.gridx = 0;
                 gbc.gridy = 3;
-                FiliusIA.this.panel.add((Component)FiliusIA.this.labels[3], gbc);
-                FiliusIA.this.scrollPane.setViewportView(FiliusIA.this.panel);
+                vsIA.this.panel.add((Component)vsIA.this.labels[3], gbc);
+                vsIA.this.scrollPane.setViewportView(vsIA.this.panel);
                 try {
                     Thread.sleep(200);
                 }
                 catch (Exception exception) {
                     // empty catch block
                 }
-                FiliusIA.this.labels[4] = new JLabel("[ok] Preparando exploits");
-                FiliusIA.this.labels[4].setForeground(new Color(255, 255, 255, 255));
+                vsIA.this.labels[4] = new JLabel("[ok] Preparando exploits");
+                vsIA.this.labels[4].setForeground(new Color(255, 255, 255, 255));
                 gbc.gridx = 0;
                 gbc.gridy = 4;
-                FiliusIA.this.panel.add((Component)FiliusIA.this.labels[4], gbc);
-                FiliusIA.this.scrollPane.setViewportView(FiliusIA.this.panel);
+                vsIA.this.panel.add((Component)vsIA.this.labels[4], gbc);
+                vsIA.this.scrollPane.setViewportView(vsIA.this.panel);
                 try {
                     Thread.sleep(200);
                 }
                 catch (Exception exception) {
                     // empty catch block
                 }
-                FiliusIA.this.labels[5] = new JLabel("[ok] Sistema iniciado");
-                FiliusIA.this.labels[5].setForeground(new Color(255, 255, 255, 255));
+                vsIA.this.labels[5] = new JLabel("[ok] Sistema iniciado");
+                vsIA.this.labels[5].setForeground(new Color(255, 255, 255, 255));
                 gbc.gridx = 0;
                 gbc.gridy = 5;
-                FiliusIA.this.panel.add((Component)FiliusIA.this.labels[5], gbc);
-                FiliusIA.this.scrollPane.setViewportView(FiliusIA.this.panel);
+                vsIA.this.panel.add((Component)vsIA.this.labels[5], gbc);
+                vsIA.this.scrollPane.setViewportView(vsIA.this.panel);
                 try {
                     Thread.sleep(200);
                 }
@@ -150,64 +150,64 @@ KeyListener {
                 }
                 int i22 = 0;
                 while (i22 < 6) {
-                    FiliusIA.this.panel.remove(FiliusIA.this.labels[i22]);
+                    vsIA.this.panel.remove(vsIA.this.labels[i22]);
                     ++i22;
                 }
-                FiliusIA.this.labels[0] = new JLabel("Bienvenido al sistema secreto ARCANUM");
-                FiliusIA.this.labels[0].setForeground(Color.WHITE);
+                vsIA.this.labels[0] = new JLabel("Bienvenido al sistema secreto ARCANUM");
+                vsIA.this.labels[0].setForeground(Color.WHITE);
                 gbc.gridx = 0;
                 gbc.gridy = 0;
-                FiliusIA.this.panel.add((Component)FiliusIA.this.labels[0], gbc);
-                FiliusIA.this.scrollPane.setViewportView(FiliusIA.this.panel);
+                vsIA.this.panel.add((Component)vsIA.this.labels[0], gbc);
+                vsIA.this.scrollPane.setViewportView(vsIA.this.panel);
                 try {
                     Thread.sleep(1000);
                 }
                 catch (Exception i22i) {
                     // empty catch block
                 }
-                FiliusIA.this.labels[1] = new JLabel("[Error] Recibiendo ataques IA");
-                FiliusIA.this.labels[1].setForeground(Color.RED);
+                vsIA.this.labels[1] = new JLabel("[Error] Recibiendo ataques IA");
+                vsIA.this.labels[1].setForeground(Color.RED);
                 gbc.gridx = 0;
                 gbc.gridy = 1;
-                FiliusIA.this.panel.add((Component)FiliusIA.this.labels[1], gbc);
-                FiliusIA.this.scrollPane.setViewportView(FiliusIA.this.panel);
+                vsIA.this.panel.add((Component)vsIA.this.labels[1], gbc);
+                vsIA.this.scrollPane.setViewportView(vsIA.this.panel);
                 try {
                     Thread.sleep(1000);
                 }
                 catch (Exception i22i) {
                     // empty catch block
                 }
-                FiliusIA.this.labels[2] = new JLabel("Que comience el juego, \u00a1contrataca!:");
-                FiliusIA.this.labels[2].setForeground(Color.WHITE);
+                vsIA.this.labels[2] = new JLabel("Que comience el juego, \u00a1contrataca!:");
+                vsIA.this.labels[2].setForeground(Color.WHITE);
                 gbc.gridx = 0;
                 gbc.gridy = 2;
-                FiliusIA.this.panel.add((Component)FiliusIA.this.labels[2], gbc);
-                FiliusIA.this.scrollPane.setViewportView(FiliusIA.this.panel);
+                vsIA.this.panel.add((Component)vsIA.this.labels[2], gbc);
+                vsIA.this.scrollPane.setViewportView(vsIA.this.panel);
                 try {
                     Thread.sleep(1000);
                 }
                 catch (Exception i22i) {
                     // empty catch block
                 }
-                FiliusIA.this.labels[FiliusIA.this.contadorLineas] = new JLabel("[!] Introduzca su n\u00famero secreto, defienda su m\u00e1quina");
-                FiliusIA.this.labels[FiliusIA.this.contadorLineas].setForeground(Color.BLUE);
+                vsIA.this.labels[vsIA.this.contadorLineas] = new JLabel("[!] Introduzca su n\u00famero secreto, defienda su m\u00e1quina");
+                vsIA.this.labels[vsIA.this.contadorLineas].setForeground(Color.BLUE);
                 gbc.gridx = 0;
-                gbc.gridy = FiliusIA.this.contadorLineas;
-                FiliusIA.this.panel.add((Component)FiliusIA.this.labels[FiliusIA.this.contadorLineas], gbc);
-                FiliusIA.this.scrollPane.setViewportView(FiliusIA.this.panel);
-                ++FiliusIA.this.contadorLineas;
-                FiliusIA.this.add(FiliusIA.this.txtNumeroSecreto);
-                FiliusIA.this.txtNumeroSecreto.setBounds(170, 400, 200, 40);
-                FiliusIA.this.txtNumeroSecreto.setBackground(Color.RED);
-                FiliusIA.this.txtNumeroSecreto.setForeground(Color.WHITE);
-                FiliusIA.this.add(FiliusIA.this.btnOkk);
-                FiliusIA.this.btnOkk.setBounds(380, 400, 90, 40);
-                FiliusIA.this.btnOkk.setBackground(Color.RED);
-                FiliusIA.this.btnOkk.setForeground(Color.WHITE);
-                FiliusIA.this.txtNumeroJugador.setBorder(FiliusIA.this.raise);
-                FiliusIA.this.txtNumeroJugador.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.WHITE));
-                FiliusIA.this.btnOk.setBorder(FiliusIA.this.raise);
-                FiliusIA.this.btnOk.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.WHITE));
+                gbc.gridy = vsIA.this.contadorLineas;
+                vsIA.this.panel.add((Component)vsIA.this.labels[vsIA.this.contadorLineas], gbc);
+                vsIA.this.scrollPane.setViewportView(vsIA.this.panel);
+                ++vsIA.this.contadorLineas;
+                vsIA.this.add(vsIA.this.txtNumeroSecreto);
+                vsIA.this.txtNumeroSecreto.setBounds(170, 400, 200, 40);
+                vsIA.this.txtNumeroSecreto.setBackground(Color.RED);
+                vsIA.this.txtNumeroSecreto.setForeground(Color.WHITE);
+                vsIA.this.add(vsIA.this.btnOkk);
+                vsIA.this.btnOkk.setBounds(380, 400, 90, 40);
+                vsIA.this.btnOkk.setBackground(Color.RED);
+                vsIA.this.btnOkk.setForeground(Color.WHITE);
+                vsIA.this.txtNumeroJugador.setBorder(vsIA.this.raise);
+                vsIA.this.txtNumeroJugador.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.WHITE));
+                vsIA.this.btnOk.setBorder(vsIA.this.raise);
+                vsIA.this.btnOk.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.WHITE));
             }
         });
         hilo.start();
@@ -317,7 +317,7 @@ KeyListener {
                     this.btnOk.addActionListener(newEvent -> {
                        // thread.interrupt();
                         this.setVisible(false);
-                        new es.studium.arcanum.PaterClass();
+                        new initium.Initium();
                     }
                     );
                 } else if (respuestaia.equals("mmmm")) {
@@ -352,7 +352,7 @@ KeyListener {
                     this.btnOk.addActionListener(newEvent -> {
                         //thread.interrupt();
                         this.setVisible(false);
-                        new es.studium.arcanum.PaterClass();
+                        new initium.Initium();
                     }
                     );
                 }
@@ -376,7 +376,7 @@ KeyListener {
     @Override
     public void windowClosing(WindowEvent arg0) {
         this.setVisible(false);
-        new es.studium.arcanum.PaterClass();
+        new initium.Initium();
     }
 
     @Override

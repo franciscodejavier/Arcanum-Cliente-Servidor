@@ -1,4 +1,4 @@
-package es.studium.ia;
+package ia;
 
 public class PatricIA {
     static String listaNegra = "";

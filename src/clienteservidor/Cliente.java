@@ -1,4 +1,4 @@
-package es.studium.clientserver;
+package clienteservidor;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -32,10 +32,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
-import es.studium.math.Consule;
-import es.studium.math.Fondo;
+import matematicas.Consule;
+import matematicas.Fondo;
 
-public class ArcanumCliente extends JFrame implements WindowListener, MouseListener, KeyListener {
+public class Cliente extends JFrame implements WindowListener, MouseListener, KeyListener {
     private static final long serialVersionUID = 1;
     
     JTextField txtNumeroCliente = new JTextField();
@@ -68,18 +68,18 @@ public class ArcanumCliente extends JFrame implements WindowListener, MouseListe
     static String ip = "";
     Thread hiloBtnOkk;
 
-    public ArcanumCliente() {
+    public Cliente() {
     	
         this.hiloBtnOkk = new Thread(new Runnable(){
             @Override
             public void run() {
-                ArcanumCliente.numeroSecretoCliente = ArcanumCliente.this.txtNumeroSecreto.getText();
-                if (ArcanumCliente.numeroSecretoCliente.length() != 4) {
-                    ArcanumCliente.this.nuevaLinea("[ERROR] 4 d\u00edgitos", "RED");
+                Cliente.numeroSecretoCliente = Cliente.this.txtNumeroSecreto.getText();
+                if (Cliente.numeroSecretoCliente.length() != 4) {
+                    Cliente.this.nuevaLinea("[ERROR] 4 d\u00edgitos", "RED");
                 } else {
-                    ArcanumCliente.this.Creacion2();
-                    ArcanumCliente.this.nuevaLinea("[!] Cifrando n\u00famero secreto", "WHITE");
-                    ArcanumCliente.this.nuevaLinea("[!] N\u00famero secreto cifrado", "GREEN");
+                    Cliente.this.Creacion2();
+                    Cliente.this.nuevaLinea("[!] Cifrando n\u00famero secreto", "WHITE");
+                    Cliente.this.nuevaLinea("[!] N\u00famero secreto cifrado", "GREEN");
                 }
             }
         });
@@ -107,18 +107,18 @@ public class ArcanumCliente extends JFrame implements WindowListener, MouseListe
         Thread hiloInicio = new Thread(new Runnable(){
             @Override
             public void run() {
-                ArcanumCliente.this.Encendido();
-                ArcanumCliente.this.IP();
-                ArcanumCliente.this.btnIP.addActionListener(event -> {
-                    ArcanumCliente.this.BtnIP();
+                Cliente.this.Encendido();
+                Cliente.this.IP();
+                Cliente.this.btnIP.addActionListener(event -> {
+                    Cliente.this.BtnIP();
                 }
                 );
-                ArcanumCliente.this.btnOkk.addActionListener(event -> {
-                    ArcanumCliente.this.hiloBtnOkk.start();
+                Cliente.this.btnOkk.addActionListener(event -> {
+                    Cliente.this.hiloBtnOkk.start();
                 }
                 );
-                ArcanumCliente.this.btnOk.addActionListener(event -> {
-                    ArcanumCliente.this.BtnOK();
+                Cliente.this.btnOk.addActionListener(event -> {
+                    Cliente.this.BtnOK();
                 }
                 );
             }
@@ -132,7 +132,7 @@ public class ArcanumCliente extends JFrame implements WindowListener, MouseListe
     }
 
     public static void main(String[] args) throws NumberFormatException, IOException, ClassNotFoundException, SQLException {
-        new es.studium.clientserver.ArcanumCliente();
+        new clienteservidor.Cliente();
     }
 
     public void mouseClicked(MouseEvent me) {}
@@ -194,7 +194,7 @@ public class ArcanumCliente extends JFrame implements WindowListener, MouseListe
             this.SalidaDatos.flush();
         }
         catch (IOException ex) {
-            Logger.getLogger(ArcanumServidor.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -236,7 +236,7 @@ public class ArcanumCliente extends JFrame implements WindowListener, MouseListe
             }
         }
         catch (IOException ex) {
-            Logger.getLogger(ArcanumServidor.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -274,7 +274,7 @@ public class ArcanumCliente extends JFrame implements WindowListener, MouseListe
             this.socketCliente.close();
         }
         catch (IOException ex) {
-            Logger.getLogger(ArcanumCliente.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -340,8 +340,8 @@ public class ArcanumCliente extends JFrame implements WindowListener, MouseListe
 
                 @Override
                 public void run() {
-                    while (ArcanumCliente.opcion) {
-                        ArcanumCliente.this.escucharDatos(ArcanumCliente.this.socketCliente);
+                    while (Cliente.opcion) {
+                        Cliente.this.escucharDatos(Cliente.this.socketCliente);
                     }
                 }
             });

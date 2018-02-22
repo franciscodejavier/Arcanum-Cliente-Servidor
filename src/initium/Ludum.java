@@ -1,4 +1,4 @@
-package es.studium.arcanum;
+package initium;
 
 import java.awt.Color;
 import java.awt.Component;
@@ -21,12 +21,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
-import es.studium.math.Consule;
-import es.studium.math.Fondo;
-import es.studium.math.Numerum;
-import es.studium.math.Selector;
+import matematicas.Consule;
+import matematicas.Fondo;
+import matematicas.Numerum;
+import matematicas.Selector;
 
-public class FiliusNuevoJuego
+public class Ludum
 extends JFrame
 implements WindowListener,
 MouseListener,
@@ -45,7 +45,7 @@ KeyListener {
     static String numeroSecreto = Numerum.NumeroAleatorio();
     Border raise = BorderFactory.createEtchedBorder(0);
 
-    public FiliusNuevoJuego() {
+    public Ludum() {
         System.out.println("N\u00famero secreto: " + numeroSecreto);
         this.setLayout(null);
         this.setTitle("Arcanum Ludum");
@@ -71,72 +71,72 @@ KeyListener {
 
             @Override
             public void run() {
-                FiliusNuevoJuego.this.labels[0] = new JLabel("[ok] Iniciando sistema");
-                FiliusNuevoJuego.this.labels[0].setForeground(new Color(255, 255, 255, 255));
+                Ludum.this.labels[0] = new JLabel("[ok] Iniciando sistema");
+                Ludum.this.labels[0].setForeground(new Color(255, 255, 255, 255));
                 gbc.gridx = 0;
                 gbc.gridy = 0;
-                FiliusNuevoJuego.this.panel.add((Component)FiliusNuevoJuego.this.labels[0], gbc);
-                FiliusNuevoJuego.this.scrollPane.setViewportView(FiliusNuevoJuego.this.panel);
+                Ludum.this.panel.add((Component)Ludum.this.labels[0], gbc);
+                Ludum.this.scrollPane.setViewportView(Ludum.this.panel);
                 try {
                     Thread.sleep(200);
                 }
                 catch (Exception exception) {
                     // empty catch block
                 }
-                FiliusNuevoJuego.this.labels[1] = new JLabel("[ok] Iniciando cargador de arranque");
-                FiliusNuevoJuego.this.labels[1].setForeground(new Color(255, 255, 255, 255));
+                Ludum.this.labels[1] = new JLabel("[ok] Iniciando cargador de arranque");
+                Ludum.this.labels[1].setForeground(new Color(255, 255, 255, 255));
                 gbc.gridx = 0;
                 gbc.gridy = 1;
-                FiliusNuevoJuego.this.panel.add((Component)FiliusNuevoJuego.this.labels[1], gbc);
-                FiliusNuevoJuego.this.scrollPane.setViewportView(FiliusNuevoJuego.this.panel);
+                Ludum.this.panel.add((Component)Ludum.this.labels[1], gbc);
+                Ludum.this.scrollPane.setViewportView(Ludum.this.panel);
                 try {
                     Thread.sleep(200);
                 }
                 catch (Exception exception) {
                     // empty catch block
                 }
-                FiliusNuevoJuego.this.labels[2] = new JLabel("[error] Disipadores condensados");
-                FiliusNuevoJuego.this.labels[2].setForeground(Color.RED);
+                Ludum.this.labels[2] = new JLabel("[error] Disipadores condensados");
+                Ludum.this.labels[2].setForeground(Color.RED);
                 gbc.gridx = 0;
                 gbc.gridy = 2;
-                FiliusNuevoJuego.this.panel.add((Component)FiliusNuevoJuego.this.labels[2], gbc);
-                FiliusNuevoJuego.this.scrollPane.setViewportView(FiliusNuevoJuego.this.panel);
+                Ludum.this.panel.add((Component)Ludum.this.labels[2], gbc);
+                Ludum.this.scrollPane.setViewportView(Ludum.this.panel);
                 try {
                     Thread.sleep(500);
                 }
                 catch (Exception exception) {
                     // empty catch block
                 }
-                FiliusNuevoJuego.this.labels[3] = new JLabel("[ok] Recondensando procesos");
-                FiliusNuevoJuego.this.labels[3].setForeground(Color.GREEN);
+                Ludum.this.labels[3] = new JLabel("[ok] Recondensando procesos");
+                Ludum.this.labels[3].setForeground(Color.GREEN);
                 gbc.gridx = 0;
                 gbc.gridy = 3;
-                FiliusNuevoJuego.this.panel.add((Component)FiliusNuevoJuego.this.labels[3], gbc);
-                FiliusNuevoJuego.this.scrollPane.setViewportView(FiliusNuevoJuego.this.panel);
+                Ludum.this.panel.add((Component)Ludum.this.labels[3], gbc);
+                Ludum.this.scrollPane.setViewportView(Ludum.this.panel);
                 try {
                     Thread.sleep(200);
                 }
                 catch (Exception exception) {
                     // empty catch block
                 }
-                FiliusNuevoJuego.this.labels[4] = new JLabel("[ok] Preparando mec\u00e1nica cu\u00e1ntica");
-                FiliusNuevoJuego.this.labels[4].setForeground(new Color(255, 255, 255, 255));
+                Ludum.this.labels[4] = new JLabel("[ok] Preparando mec\u00e1nica cu\u00e1ntica");
+                Ludum.this.labels[4].setForeground(new Color(255, 255, 255, 255));
                 gbc.gridx = 0;
                 gbc.gridy = 4;
-                FiliusNuevoJuego.this.panel.add((Component)FiliusNuevoJuego.this.labels[4], gbc);
-                FiliusNuevoJuego.this.scrollPane.setViewportView(FiliusNuevoJuego.this.panel);
+                Ludum.this.panel.add((Component)Ludum.this.labels[4], gbc);
+                Ludum.this.scrollPane.setViewportView(Ludum.this.panel);
                 try {
                     Thread.sleep(200);
                 }
                 catch (Exception exception) {
                     // empty catch block
                 }
-                FiliusNuevoJuego.this.labels[5] = new JLabel("[ok] Sistema iniciado");
-                FiliusNuevoJuego.this.labels[5].setForeground(new Color(255, 255, 255, 255));
+                Ludum.this.labels[5] = new JLabel("[ok] Sistema iniciado");
+                Ludum.this.labels[5].setForeground(new Color(255, 255, 255, 255));
                 gbc.gridx = 0;
                 gbc.gridy = 5;
-                FiliusNuevoJuego.this.panel.add((Component)FiliusNuevoJuego.this.labels[5], gbc);
-                FiliusNuevoJuego.this.scrollPane.setViewportView(FiliusNuevoJuego.this.panel);
+                Ludum.this.panel.add((Component)Ludum.this.labels[5], gbc);
+                Ludum.this.scrollPane.setViewportView(Ludum.this.panel);
                 try {
                     Thread.sleep(200);
                 }
@@ -145,57 +145,57 @@ KeyListener {
                 }
                 int i22 = 0;
                 while (i22 < 6) {
-                    FiliusNuevoJuego.this.panel.remove(FiliusNuevoJuego.this.labels[i22]);
+                    Ludum.this.panel.remove(Ludum.this.labels[i22]);
                     ++i22;
                 }
-                FiliusNuevoJuego.this.labels[0] = new JLabel("Bienvenido al sistema secreto ARCANUM");
-                FiliusNuevoJuego.this.labels[0].setForeground(Color.WHITE);
+                Ludum.this.labels[0] = new JLabel("Bienvenido al sistema secreto ARCANUM");
+                Ludum.this.labels[0].setForeground(Color.WHITE);
                 gbc.gridx = 0;
                 gbc.gridy = 0;
-                FiliusNuevoJuego.this.panel.add((Component)FiliusNuevoJuego.this.labels[0], gbc);
-                FiliusNuevoJuego.this.scrollPane.setViewportView(FiliusNuevoJuego.this.panel);
+                Ludum.this.panel.add((Component)Ludum.this.labels[0], gbc);
+                Ludum.this.scrollPane.setViewportView(Ludum.this.panel);
                 try {
                     Thread.sleep(1000);
                 }
                 catch (Exception i22i) {
                     // empty catch block
                 }
-                FiliusNuevoJuego.this.labels[1] = new JLabel("[Error] en el inicio de sesi\u00f3n");
-                FiliusNuevoJuego.this.labels[1].setForeground(Color.RED);
+                Ludum.this.labels[1] = new JLabel("[Error] en el inicio de sesi\u00f3n");
+                Ludum.this.labels[1].setForeground(Color.RED);
                 gbc.gridx = 0;
                 gbc.gridy = 1;
-                FiliusNuevoJuego.this.panel.add((Component)FiliusNuevoJuego.this.labels[1], gbc);
-                FiliusNuevoJuego.this.scrollPane.setViewportView(FiliusNuevoJuego.this.panel);
+                Ludum.this.panel.add((Component)Ludum.this.labels[1], gbc);
+                Ludum.this.scrollPane.setViewportView(Ludum.this.panel);
                 try {
                     Thread.sleep(1000);
                 }
                 catch (Exception i22i) {
                     // empty catch block
                 }
-                FiliusNuevoJuego.this.labels[2] = new JLabel("Que comience el juego:");
-                FiliusNuevoJuego.this.labels[2].setForeground(Color.WHITE);
+                Ludum.this.labels[2] = new JLabel("Que comience el juego:");
+                Ludum.this.labels[2].setForeground(Color.WHITE);
                 gbc.gridx = 0;
                 gbc.gridy = 2;
-                FiliusNuevoJuego.this.panel.add((Component)FiliusNuevoJuego.this.labels[2], gbc);
-                FiliusNuevoJuego.this.scrollPane.setViewportView(FiliusNuevoJuego.this.panel);
+                Ludum.this.panel.add((Component)Ludum.this.labels[2], gbc);
+                Ludum.this.scrollPane.setViewportView(Ludum.this.panel);
                 try {
                     Thread.sleep(1000);
                 }
                 catch (Exception i22i) {
                     // empty catch block
                 }
-                FiliusNuevoJuego.this.add(FiliusNuevoJuego.this.txtNumeroJugador);
-                FiliusNuevoJuego.this.txtNumeroJugador.setBounds(170, 400, 200, 40);
-                FiliusNuevoJuego.this.txtNumeroJugador.setBackground(Color.BLACK);
-                FiliusNuevoJuego.this.txtNumeroJugador.setForeground(Color.WHITE);
-                FiliusNuevoJuego.this.add(FiliusNuevoJuego.this.btnOk);
-                FiliusNuevoJuego.this.btnOk.setBounds(380, 400, 90, 40);
-                FiliusNuevoJuego.this.btnOk.setBackground(Color.BLACK);
-                FiliusNuevoJuego.this.btnOk.setForeground(Color.WHITE);
-                FiliusNuevoJuego.this.txtNumeroJugador.setBorder(FiliusNuevoJuego.this.raise);
-                FiliusNuevoJuego.this.txtNumeroJugador.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.WHITE));
-                FiliusNuevoJuego.this.btnOk.setBorder(FiliusNuevoJuego.this.raise);
-                FiliusNuevoJuego.this.btnOk.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.WHITE));
+                Ludum.this.add(Ludum.this.txtNumeroJugador);
+                Ludum.this.txtNumeroJugador.setBounds(170, 400, 200, 40);
+                Ludum.this.txtNumeroJugador.setBackground(Color.BLACK);
+                Ludum.this.txtNumeroJugador.setForeground(Color.WHITE);
+                Ludum.this.add(Ludum.this.btnOk);
+                Ludum.this.btnOk.setBounds(380, 400, 90, 40);
+                Ludum.this.btnOk.setBackground(Color.BLACK);
+                Ludum.this.btnOk.setForeground(Color.WHITE);
+                Ludum.this.txtNumeroJugador.setBorder(Ludum.this.raise);
+                Ludum.this.txtNumeroJugador.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.WHITE));
+                Ludum.this.btnOk.setBorder(Ludum.this.raise);
+                Ludum.this.btnOk.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.WHITE));
             }
         });
         hilo.start();
@@ -260,7 +260,7 @@ KeyListener {
                     this.btnOk.addActionListener(newEvent -> {
                         //thread.interrupt();
                         this.setVisible(false);
-                        new es.studium.arcanum.PaterClass();
+                        new initium.Initium();
                     }
                     );
                 }
@@ -284,7 +284,7 @@ KeyListener {
     @Override
     public void windowClosing(WindowEvent arg0) {
         this.setVisible(false);
-        new es.studium.arcanum.PaterClass();
+        new initium.Initium();
     }
 
     @Override

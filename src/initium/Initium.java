@@ -1,4 +1,4 @@
-package es.studium.arcanum;
+package initium;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,16 +13,16 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
-import es.studium.math.Fondo;
+import matematicas.Fondo;
 
-public class PaterClass
+public class Initium
 extends JFrame
 implements WindowListener,
 ActionListener {
     private static final long serialVersionUID = 1;
     Fondo fondo = new Fondo();
 
-    public PaterClass() {
+    public Initium() {
         this.MenuBar();
         this.setLayout(null);
         this.setTitle("Arcanum Servidor");
@@ -67,12 +67,12 @@ ActionListener {
         menuOnline.add(mnCliente);
         this.setJMenuBar(menubar);
         mnNuevoJuego.addActionListener(event -> {
-            new es.studium.arcanum.FiliusNuevoJuego();
+            new initium.Ludum();
             this.setVisible(false);
         }
         );
         mnIA.addActionListener(event -> {
-            new es.studium.arcanum.FiliusIA();
+            new initium.vsIA();
             this.setVisible(false);
         }
         );
@@ -81,19 +81,19 @@ ActionListener {
         }
         );
         mnServidor.addActionListener(event -> {
-            new es.studium.clientserver.ArcanumServidor();
+            new clienteservidor.Servidor();
             this.setVisible(false);
         }
         );
         mnCliente.addActionListener(event -> {
-            new es.studium.clientserver.ArcanumCliente();
+            new clienteservidor.Cliente();
             this.setVisible(false);
         }
         );
     }
 
     public static void main(String[] args) throws NumberFormatException, IOException, ClassNotFoundException, SQLException {
-        new es.studium.arcanum.PaterClass();
+        new initium.Initium();
     }
 
     @Override

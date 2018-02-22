@@ -1,4 +1,4 @@
-package es.studium.math;
+package matematicas;
 
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;

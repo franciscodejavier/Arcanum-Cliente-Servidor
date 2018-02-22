@@ -1,7 +1,7 @@
 /*
  * Decompiled with CFR 0_123.
  */
-package es.studium.math;
+package matematicas;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
