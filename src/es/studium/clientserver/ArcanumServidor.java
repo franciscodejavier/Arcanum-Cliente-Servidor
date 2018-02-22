@@ -65,7 +65,8 @@ public class ArcanumServidor extends JFrame implements WindowListener, MouseList
     Thread hiloBtnOkk;
 
     public ArcanumServidor() {
-        this.hiloBtnOkk = new Thread(new Runnable(){
+      
+    	this.hiloBtnOkk = new Thread(new Runnable(){
             @Override
             public void run() {
                 ArcanumServidor.numeroSecretoServidor = ArcanumServidor.this.txtNumeroSecreto.getText();
