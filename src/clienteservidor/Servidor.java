@@ -66,78 +66,78 @@ public class Servidor extends JFrame implements WindowListener, MouseListener, K
 
     public Servidor() {
       
-    	this.hiloBtnOkk = new Thread(new Runnable(){
+    	hiloBtnOkk = new Thread(new Runnable(){
             @Override
             public void run() {
-                Servidor.numeroSecretoServidor = Servidor.this.txtNumeroSecreto.getText();
-                if (Servidor.numeroSecretoServidor.length() != 4) {
-                    Servidor.this.nuevaLinea("[ERROR] 4 d\u00edgitos", "RED");
+                numeroSecretoServidor = txtNumeroSecreto.getText();
+                if (numeroSecretoServidor.length() != 4) {
+                    nuevaLinea("[ERROR] 4 d\u00edgitos", "RED");
                 } else {
-                    Servidor.this.Creacion2();
-                    Servidor.this.nuevaLinea("[!] Cifrando n\u00famero secreto", "WHITE");
-                    Servidor.this.nuevaLinea("[!] N\u00famero secreto cifrado", "GREEN");
+                    Creacion2();
+                    nuevaLinea("[!] Cifrando n\u00famero secreto", "WHITE");
+                    nuevaLinea("[!] N\u00famero secreto cifrado", "GREEN");
                 }
             }
         });
         
-        this.setLayout(null);
-        this.setTitle("Arcanum Servidor");
-        this.setLocationRelativeTo(null);
-        this.setSize(639, 480);
-        this.setVisible(true);
-        this.setResizable(false);
-        this.add(this.fondo);
-        this.fondo.setLayout(null);
-        this.fondo.setBackground("img/monitor.jpg");
-        this.fondo.setVisible(true);
-        this.fondo.setOpaque(false);
-        this.fondo.setBounds(0, 0, 639, 480);
-        this.getContentPane().add(this.panel);
-        this.fondo.add(this.scrollPane);
-        this.scrollPane.setBounds(156, 57, 337, 290);
-        this.panel.setBackground(new Color(1, 1, 1, 250));
-        this.panel.setLayout(new GridBagLayout());
-        this.gbc.insets = new Insets(1, 1, 1, 300);
-        this.gbc.anchor = 18;
+        setLayout(null);
+        setTitle("Arcanum Servidor");
+        setLocationRelativeTo(null);
+        setSize(639, 480);
+        setVisible(true);
+        setResizable(false);
+        add(fondo);
+        fondo.setLayout(null);
+        fondo.setBackground("img/monitor.jpg");
+        fondo.setVisible(true);
+        fondo.setOpaque(false);
+        fondo.setBounds(0, 0, 639, 480);
+        getContentPane().add(panel);
+        fondo.add(scrollPane);
+        scrollPane.setBounds(156, 57, 337, 290);
+        panel.setBackground(new Color(1, 1, 1, 250));
+        panel.setLayout(new GridBagLayout());
+        gbc.insets = new Insets(1, 1, 1, 300);
+        gbc.anchor = 18;
       
         Thread hiloInicio = new Thread(new Runnable(){
             @Override
             public void run() {
-                Servidor.this.Encendido();
-                Servidor.this.Creacion();
-                Servidor.this.btnOkk.addActionListener(event -> {
-                    Servidor.this.hiloBtnOkk.start();
+                Encendido();
+                Creacion();
+                btnOkk.addActionListener(event -> {
+                    hiloBtnOkk.start();
                 }
                 );
-                Servidor.this.btnOk.addActionListener(event -> {
-                    Servidor.this.BtnOk();
+                btnOk.addActionListener(event -> {
+                    BtnOk();
                 }
                 );
                 try {
-                    Servidor.this.socketServicio = new ServerSocket(5555);
-                    Servidor.this.nuevaLinea("Servicio en escucha en puerto: 5555", "BLUE");
-                    Servidor.this.miServicio = Servidor.this.socketServicio.accept();
+                    socketServicio = new ServerSocket(5555);
+                    nuevaLinea("Servicio en escucha en puerto: 5555", "BLUE");
+                    miServicio = socketServicio.accept();
                     Thread hilo = new Thread(new Runnable(){
                         @Override
                         public void run() {
-                            while (Servidor.this.opcion) {
-                                Servidor.this.recibirDatos();
+                            while (opcion) {
+                                recibirDatos();
                             }
                         }
                     });
                     hilo.start();
                 }
                 catch (Exception ex) {
-                    Servidor.this.nuevaLinea("Error al abrir los sockets", "RED");
+                    nuevaLinea("Error al abrir los sockets", "RED");
                 }
             }
         });
         hiloInicio.start();
         
-        this.addWindowListener(this);
-        this.addMouseListener(this);
-        this.addKeyListener(this);
-        this.txtNumeroServidor.addKeyListener(this);
+        addWindowListener(this);
+        addMouseListener(this);
+        addKeyListener(this);
+        txtNumeroServidor.addKeyListener(this);
     }
 
     public static void main(String[] args) throws NumberFormatException, IOException, ClassNotFoundException, SQLException {
@@ -157,7 +157,7 @@ public class Servidor extends JFrame implements WindowListener, MouseListener, K
     public void windowClosing(WindowEvent arg0) {
         System.exit(0);
         try {
-            this.miServicio.close();
+            miServicio.close();
         }
         catch (IOException e) {
             e.printStackTrace();
@@ -174,47 +174,47 @@ public class Servidor extends JFrame implements WindowListener, MouseListener, K
     public void mouseReleased(MouseEvent arg0) {}
     public void keyPressed(KeyEvent ke) {
         if (ke.getKeyCode() == 10) {
-            this.btnOk.doClick();
+            btnOk.doClick();
         }
     }
     public void keyReleased(KeyEvent ke) {}
     public void keyTyped(KeyEvent ke) {}
     
     public void nuevaLinea(String texto, String color) {
-        this.labels[this.contadorLineas] = new JLabel(texto);
+        labels[contadorLineas] = new JLabel(texto);
         if (color.equals("RED")) {
-            this.labels[this.contadorLineas].setForeground(Color.RED);
+            labels[contadorLineas].setForeground(Color.RED);
         } else if (color.equals("WHITE")) {
-            this.labels[this.contadorLineas].setForeground(Color.WHITE);
+            labels[contadorLineas].setForeground(Color.WHITE);
         } else if (color.equals("GREEN")) {
-            this.labels[this.contadorLineas].setForeground(Color.GREEN);
+            labels[contadorLineas].setForeground(Color.GREEN);
         } else if (color.equals("GRAY")) {
-            this.labels[this.contadorLineas].setForeground(Color.GRAY);
+            labels[contadorLineas].setForeground(Color.GRAY);
         } else if (color.equals("BLUE")) {
-            this.labels[this.contadorLineas].setForeground(Color.BLUE);
+            labels[contadorLineas].setForeground(Color.BLUE);
         } else {
-            this.labels[this.contadorLineas].setForeground(Color.WHITE);
+            labels[contadorLineas].setForeground(Color.WHITE);
         }
-        this.gbc.gridx = 0;
-        this.gbc.gridy = this.contadorLineas;
-        this.panel.add((Component)this.labels[this.contadorLineas], this.gbc);
-        this.scrollPane.setViewportView(this.panel);
-        ++this.contadorLineas;
+        gbc.gridx = 0;
+        gbc.gridy = contadorLineas;
+        panel.add((Component)labels[contadorLineas], gbc);
+        scrollPane.setViewportView(panel);
+        ++contadorLineas;
         try {
             Thread.sleep(500);
         }
         catch (Exception exception) {
             // empty catch block
         }
-        this.scrollPane.getVerticalScrollBar().setValue(this.scrollPane.getVerticalScrollBar().getMaximum());
+        scrollPane.getVerticalScrollBar().setValue(scrollPane.getVerticalScrollBar().getMaximum());
     }
 
     public void enviarDatos(String datos) {
         try {
-            this.outputStream = this.miServicio.getOutputStream();
-            this.salidaDatos = new DataOutputStream(this.outputStream);
-            this.salidaDatos.writeUTF(datos);
-            this.salidaDatos.flush();
+            outputStream = miServicio.getOutputStream();
+            salidaDatos = new DataOutputStream(outputStream);
+            salidaDatos.writeUTF(datos);
+            salidaDatos.flush();
         }
         catch (IOException ex) {
             Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
@@ -223,9 +223,9 @@ public class Servidor extends JFrame implements WindowListener, MouseListener, K
 
     public void recibirDatos() {
         try {
-            this.inputStream = this.miServicio.getInputStream();
-            this.entradaDatos = new DataInputStream(this.inputStream);
-            numeroCliente = this.entradaDatos.readUTF();
+            inputStream = miServicio.getInputStream();
+            entradaDatos = new DataInputStream(inputStream);
+            numeroCliente = entradaDatos.readUTF();
             boolean esNumero = true;
             try {
                 Integer.parseInt(numeroCliente);
@@ -235,26 +235,26 @@ public class Servidor extends JFrame implements WindowListener, MouseListener, K
             }
             if (esNumero) {
                 respuesta = Consule.Consulta(numeroSecretoServidor, numeroCliente);
-                this.nuevaLinea("<< " + numeroCliente + " --> " + respuesta, "GRAY");
-                this.enviarDatos(respuesta);
+                nuevaLinea("<< " + numeroCliente + " --> " + respuesta, "GRAY");
+                enviarDatos(respuesta);
             } else {
-                ++this.contador;
-                this.nuevaLinea(">>" + numeroServidor + " --> " + numeroCliente, "WHITE");
+                ++contador;
+                nuevaLinea(">>" + numeroServidor + " --> " + numeroCliente, "WHITE");
                 if (numeroCliente.equals("exploited")) {
-                    this.Perdedor();
-                    this.nuevaLinea("[ERROR] Error en sistema", "RED");
-                    this.nuevaLinea("[ERROR] System HACKED", "RED");
-                    this.nuevaLinea("[hacked] Has sido hackeado por cliente", "RED");
-                    this.nuevaLinea("[!] Perdiendo control del servidor...", "WHITE");
-                    this.nuevaLinea("cliente@system# Lo siento", "RED");
-                    this.cerrarTodo();
+                    Perdedor();
+                    nuevaLinea("[ERROR] Error en sistema", "RED");
+                    nuevaLinea("[ERROR] System HACKED", "RED");
+                    nuevaLinea("[hacked] Has sido hackeado por cliente", "RED");
+                    nuevaLinea("[!] Perdiendo control del servidor...", "WHITE");
+                    nuevaLinea("cliente@system# Lo siento", "RED");
+                    cerrarTodo();
                 } else if (numeroCliente.equals("mmmm")) {
-                    this.Ganador();
-                    this.enviarDatos("exploited");
-                    this.nuevaLinea("[hacked] Has hackeado al cliente", "GREEN");
-                    this.nuevaLinea("[!] Intentos realizados " + this.contador, "WHITE");
-                    this.nuevaLinea("cliente@system# Enhorabuena", "GREEN");
-                    this.cerrarTodo();
+                    Ganador();
+                    enviarDatos("exploited");
+                    nuevaLinea("[hacked] Has hackeado al cliente", "GREEN");
+                    nuevaLinea("[!] Intentos realizados " + contador, "WHITE");
+                    nuevaLinea("cliente@system# Enhorabuena", "GREEN");
+                    cerrarTodo();
                 }
             }
         }
@@ -264,38 +264,38 @@ public class Servidor extends JFrame implements WindowListener, MouseListener, K
     }
 
     public void Ganador() {
-        this.txtNumeroServidor.setEditable(false);
-        this.txtNumeroServidor.setBorder(this.raise);
-        this.txtNumeroServidor.setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, Color.GREEN));
-        this.btnOk.setBorder(this.raise);
-        this.btnOk.setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, Color.GREEN));
-        this.btnOk.setText("Salir");
-        this.btnOk.addActionListener(newEvent -> {
-            this.setVisible(false);
+        txtNumeroServidor.setEditable(false);
+        txtNumeroServidor.setBorder(raise);
+        txtNumeroServidor.setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, Color.GREEN));
+        btnOk.setBorder(raise);
+        btnOk.setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, Color.GREEN));
+        btnOk.setText("Salir");
+        btnOk.addActionListener(newEvent -> {
+            setVisible(false);
         }
         );
     }
 
     public void Perdedor() {
-        this.txtNumeroServidor.setEditable(false);
-        this.txtNumeroServidor.setBorder(this.raise);
-        this.txtNumeroServidor.setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, Color.RED));
-        this.btnOk.setBorder(this.raise);
-        this.btnOk.setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, Color.RED));
-        this.btnOk.setText("Salir");
-        this.btnOk.addActionListener(newEvent -> {
-            this.setVisible(false);
+        txtNumeroServidor.setEditable(false);
+        txtNumeroServidor.setBorder(raise);
+        txtNumeroServidor.setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, Color.RED));
+        btnOk.setBorder(raise);
+        btnOk.setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, Color.RED));
+        btnOk.setText("Salir");
+        btnOk.addActionListener(newEvent -> {
+            setVisible(false);
         }
         );
     }
 
     public void cerrarTodo() {
         try {
-            this.opcion = false;
-            this.salidaDatos.close();
-            this.entradaDatos.close();
-            this.socketServicio.close();
-            this.miServicio.close();
+            opcion = false;
+            salidaDatos.close();
+            entradaDatos.close();
+            socketServicio.close();
+            miServicio.close();
         }
         catch (IOException ex) {
             Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
@@ -303,48 +303,48 @@ public class Servidor extends JFrame implements WindowListener, MouseListener, K
     }
 
     public void Encendido() {
-        this.nuevaLinea("[!] Iniciando sistema...", "WHITE");
-        this.nuevaLinea("[!] Sistema iniciado", "WHITE");
-        this.nuevaLinea("[!] Aplicando reglas de firewall", "WHITE");
-        this.nuevaLinea("[!] Hardening sistema...", "WHITE");
-        this.nuevaLinea("[!] Sistema iniciado correctamente", "WHITE");
-        this.nuevaLinea("[process] Introduzca el secreto", "BLUE");
+        nuevaLinea("[!] Iniciando sistema...", "WHITE");
+        nuevaLinea("[!] Sistema iniciado", "WHITE");
+        nuevaLinea("[!] Aplicando reglas de firewall", "WHITE");
+        nuevaLinea("[!] Hardening sistema...", "WHITE");
+        nuevaLinea("[!] Sistema iniciado correctamente", "WHITE");
+        nuevaLinea("[process] Introduzca el secreto", "BLUE");
     }
 
     public void Creacion() {
-        this.add(this.txtNumeroSecreto);
-        this.txtNumeroSecreto.setBounds(170, 400, 200, 40);
-        this.txtNumeroSecreto.setBackground(Color.RED);
-        this.txtNumeroSecreto.setForeground(Color.WHITE);
-        this.add(this.btnOkk);
-        this.btnOkk.setBounds(380, 400, 90, 40);
-        this.btnOkk.setBackground(Color.RED);
-        this.btnOkk.setForeground(Color.WHITE);
-        this.txtNumeroServidor.setBorder(this.raise);
-        this.txtNumeroServidor.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.WHITE));
-        this.btnOk.setBorder(this.raise);
-        this.btnOk.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.WHITE));
+        add(txtNumeroSecreto);
+        txtNumeroSecreto.setBounds(170, 400, 200, 40);
+        txtNumeroSecreto.setBackground(Color.RED);
+        txtNumeroSecreto.setForeground(Color.WHITE);
+        add(btnOkk);
+        btnOkk.setBounds(380, 400, 90, 40);
+        btnOkk.setBackground(Color.RED);
+        btnOkk.setForeground(Color.WHITE);
+        txtNumeroServidor.setBorder(raise);
+        txtNumeroServidor.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.WHITE));
+        btnOk.setBorder(raise);
+        btnOk.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.WHITE));
     }
 
     public void Creacion2() {
-        this.remove(this.btnOkk);
-        this.remove(this.txtNumeroSecreto);
-        this.add(this.txtNumeroServidor);
-        this.txtNumeroServidor.setBounds(170, 400, 200, 40);
-        this.txtNumeroServidor.setBackground(Color.BLACK);
-        this.txtNumeroServidor.setForeground(Color.WHITE);
-        this.add(this.btnOk);
-        this.btnOk.setBounds(380, 400, 90, 40);
-        this.btnOk.setBackground(Color.BLACK);
-        this.btnOk.setForeground(Color.WHITE);
+        remove(btnOkk);
+        remove(txtNumeroSecreto);
+        add(txtNumeroServidor);
+        txtNumeroServidor.setBounds(170, 400, 200, 40);
+        txtNumeroServidor.setBackground(Color.BLACK);
+        txtNumeroServidor.setForeground(Color.WHITE);
+        add(btnOk);
+        btnOk.setBounds(380, 400, 90, 40);
+        btnOk.setBackground(Color.BLACK);
+        btnOk.setForeground(Color.WHITE);
     }
 
     public void BtnOk() {
-        numeroServidor = this.txtNumeroServidor.getText();
+        numeroServidor = txtNumeroServidor.getText();
         if (numeroServidor.length() != 4) {
-            this.nuevaLinea("[ERROR] 4 d\u00edgitos", "RED");
+            nuevaLinea("[ERROR] 4 d\u00edgitos", "RED");
         } else {
-            this.enviarDatos(numeroServidor);
+            enviarDatos(numeroServidor);
         }
     }
 }
