@@ -91,7 +91,7 @@ ActionListener {
         menuSobre.add(mnComoJugar);
         this.setJMenuBar(menubar);
         mnNuevoJuego.addActionListener(event -> {
-           // new es.studium.arcanum.FiliusNuevoJuego();
+            new es.studium.arcanum.FiliusNuevoJuego();
             this.setVisible(false);
         }
         );
