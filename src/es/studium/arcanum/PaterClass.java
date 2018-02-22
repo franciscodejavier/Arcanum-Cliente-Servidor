@@ -1,30 +1,19 @@
 package es.studium.arcanum;
 
-import es.studium.arcanum.FiliusIA;
-//import es.studium.arcanum.FiliusIAvsIA;
-//import es.studium.arcanum.FiliusMultijugador;
-//import es.studium.arcanum.FiliusNuevoJuego;
-//import es.studium.arcanum.mas.Autor;
-//import es.studium.arcanum.mas.ComoJugar;
-//import es.studium.arcanum.mas.Licencia;
-import es.studium.clientserver.ArcanumCliente;
-import es.studium.clientserver.ArcanumServidor;
-import es.studium.math.Fondo;
-import java.awt.Component;
-import java.awt.Image;
-import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.IOException;
 import java.sql.SQLException;
-import javax.swing.Icon;
+
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+
+import es.studium.math.Fondo;
 
 public class PaterClass
 extends JFrame
@@ -69,44 +58,21 @@ ActionListener {
         mnSalir.setToolTipText("Salir de nuestro software.");
         JMenuItem mnCliente = new JMenuItem("Cliente", new ImageIcon(new ImageIcon("img/cliente.png").getImage().getScaledInstance(30, 30, 4)));
         mnSalir.setToolTipText("Salir de nuestro software.");
-        JMenu menuSobre = new JMenu("Sobre");
-        JMenuItem mnLicencia = new JMenuItem("Sobre licencia", new ImageIcon(new ImageIcon("img/licencia.png").getImage().getScaledInstance(30, 30, 4)));
-        mnSalir.setToolTipText("Salir de nuestro software.");
-        JMenuItem mnAutor = new JMenuItem("Sobre autor", new ImageIcon(new ImageIcon("img/autor.png").getImage().getScaledInstance(30, 30, 4)));
-        mnSalir.setToolTipText("Salir de nuestro software.");
-        JMenuItem mnComoJugar = new JMenuItem("C\u00f3mo jugar", new ImageIcon(new ImageIcon("img/comojugar.png").getImage().getScaledInstance(30, 30, 4)));
-        mnSalir.setToolTipText("\u00bfNo entiendes el juego? Te lo explicamos.");
         menubar.add(menuJugar);
         menuJugar.add(mnNuevoJuego);
-        menuJugar.add(mnMultijugador);
         menuJugar.add(mnIA);
-        menuJugar.add(mnIAvsIA);
         menuJugar.add(mnSalir);
         menubar.add(menuOnline);
         menuOnline.add(mnServidor);
         menuOnline.add(mnCliente);
-        menubar.add(menuSobre);
-        menuSobre.add(mnLicencia);
-        menuSobre.add(mnAutor);
-        menuSobre.add(mnComoJugar);
         this.setJMenuBar(menubar);
         mnNuevoJuego.addActionListener(event -> {
             new es.studium.arcanum.FiliusNuevoJuego();
             this.setVisible(false);
         }
         );
-        mnMultijugador.addActionListener(event -> {
-           // new es.studium.arcanum.FiliusMultijugador();
-            this.setVisible(false);
-        }
-        );
         mnIA.addActionListener(event -> {
             new es.studium.arcanum.FiliusIA();
-            this.setVisible(false);
-        }
-        );
-        mnIAvsIA.addActionListener(event -> {
-            //new es.studium.arcanum.FiliusIAvsIA();
             this.setVisible(false);
         }
         );
@@ -122,18 +88,6 @@ ActionListener {
         mnCliente.addActionListener(event -> {
             new es.studium.clientserver.ArcanumCliente();
             this.setVisible(false);
-        }
-        );
-        mnLicencia.addActionListener(event -> {
-            //new es.studium.arcanum.mas.Licencia();
-        }
-        );
-        mnAutor.addActionListener(event -> {
-           // new es.studium.arcanum.mas.Autor();
-        }
-        );
-        mnComoJugar.addActionListener(event -> {
-           // new es.studium.arcanum.mas.ComoJugar();
         }
         );
     }
