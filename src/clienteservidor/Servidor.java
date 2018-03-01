@@ -19,9 +19,14 @@ import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.SQLException;
+import java.util.Base64;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.crypto.Cipher;
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -321,5 +326,26 @@ public class Servidor extends JFrame implements WindowListener, MouseListener, K
         if (numeroServidor.length() != 4) {nuevaLinea("[ERROR] 4 d\u00edgitos", "RED");} 
         else {enviarDatos(numeroServidor);}
     }
+    
+    // Clase para cifrado
+    public static SecretKey getSecretEncryptionKey() throws Exception {
+		KeyGenerator generator = KeyGenerator.getInstance("AES");
+		generator.init(128); // The AES key size in number of bits
+		SecretKey secKey = generator.generateKey();
+
+		return secKey;
+	}
+    
+    // Clase para descifrado
+    public static String decrypt(String strEncrypted, String strKey) throws Exception {
+		String decrypted = "";
+		SecretKeySpec skeyspec = new SecretKeySpec(strKey.getBytes(), "AES");
+		Base64.Decoder decoder = Base64.getDecoder();
+		Cipher cipher = Cipher.getInstance("AES");
+		cipher.init(Cipher.DECRYPT_MODE, skeyspec);
+		decrypted = new String(cipher.doFinal(decoder.decode(strEncrypted)));
+
+		return decrypted;
+	}
 }
 

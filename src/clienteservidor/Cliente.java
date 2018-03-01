@@ -19,9 +19,12 @@ import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.sql.SQLException;
+import java.util.Base64;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -339,6 +342,17 @@ public class Cliente extends JFrame implements WindowListener, MouseListener, Ke
         if (numeroCliente.length() != 4) {nuevaLinea("[ERROR] 4 d\u00edgitos", "RED");} 
         else {enviarDatos(numeroCliente);}
     }
+    
+    // Clase para cifrar
+    public static String encrypt(String strClearText, String strKey) throws Exception {
+		SecretKeySpec skeyspec = new SecretKeySpec(strKey.getBytes(), "AES");
+		Cipher cipher = Cipher.getInstance("AES");
+		cipher.init(Cipher.ENCRYPT_MODE, skeyspec);
+		byte[] encrypted = cipher.doFinal(strClearText.getBytes());
+		Base64.Encoder encoder = Base64.getEncoder();
+		String encryptedString = encoder.encodeToString(encrypted);
+		return encryptedString;
+	}
 
 }
 
