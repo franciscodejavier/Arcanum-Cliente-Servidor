@@ -71,7 +71,8 @@ public class Cliente extends JFrame implements WindowListener, MouseListener, Ke
     public Cliente() {
     	
         hiloBtnOkk = new Thread(new Runnable(){
-            @Override
+            @SuppressWarnings("deprecation")
+			@Override
             public void run() {
                 numeroSecretoCliente = txtNumeroSecreto.getText();
                 if (numeroSecretoCliente.length() != 4) {

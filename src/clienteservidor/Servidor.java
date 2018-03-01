@@ -67,7 +67,8 @@ public class Servidor extends JFrame implements WindowListener, MouseListener, K
     public Servidor() {
       
     	hiloBtnOkk = new Thread(new Runnable(){
-            @Override
+            @SuppressWarnings("deprecation")
+			@Override
             public void run() {
                 numeroSecretoServidor = txtNumeroSecreto.getText();
                 if (numeroSecretoServidor.length() != 4) {
