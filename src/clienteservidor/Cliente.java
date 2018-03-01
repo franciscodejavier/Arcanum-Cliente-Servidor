@@ -69,7 +69,7 @@ public class Cliente extends JFrame implements WindowListener, MouseListener, Ke
     Thread hiloBtnOkk;
 
     public Cliente() {
-    	
+    	// Hilo para el botón
         hiloBtnOkk = new Thread(new Runnable(){
             @SuppressWarnings("deprecation")
 			@Override
@@ -85,6 +85,7 @@ public class Cliente extends JFrame implements WindowListener, MouseListener, Ke
             }
         });
         
+        // Arquitectura gráfica
         setLayout(null);
         setTitle("Arcanum Cliente");
         setLocationRelativeTo(null);
@@ -105,36 +106,27 @@ public class Cliente extends JFrame implements WindowListener, MouseListener, Ke
         gbc.insets = new Insets(1, 1, 1, 300);
         gbc.anchor = 18;
        
+        // Hilo de inicio
         Thread hiloInicio = new Thread(new Runnable(){
             @Override
             public void run() {
                 Encendido();
                 IP();
-                btnIP.addActionListener(event -> {
-                    BtnIP();
-                }
-                );
-                btnOkk.addActionListener(event -> {
-                    hiloBtnOkk.start();
-                }
-                );
-                btnOk.addActionListener(event -> {
-                    BtnOK();
-                }
-                );
+                btnIP.addActionListener(event -> {BtnIP();});
+                btnOkk.addActionListener(event -> {hiloBtnOkk.start();});
+                btnOk.addActionListener(event -> {BtnOK();});
             }
         });
         hiloInicio.start();
         
+        // Listeners
         addWindowListener(this);
         addMouseListener(this);
         addKeyListener(this);
         txtNumeroCliente.addKeyListener(this);
     }
 
-    public static void main(String[] args) throws NumberFormatException, IOException, ClassNotFoundException, SQLException {
-        new clienteservidor.Cliente();
-    }
+    public static void main(String[] args) throws NumberFormatException, IOException, ClassNotFoundException, SQLException {new clienteservidor.Cliente();}
 
     public void mouseClicked(MouseEvent me) {}
     public void windowActivated(WindowEvent arg0) {}
@@ -150,43 +142,35 @@ public class Cliente extends JFrame implements WindowListener, MouseListener, Ke
     public void mouseReleased(MouseEvent arg0) {}
 
     public void keyPressed(KeyEvent ke) {
-        if (ke.getKeyCode() == 10) {
-            btnOk.doClick();
-        }
+        // Si pulsamos intro sobre el textfield, será igual que presionar sobre el botón
+        if (ke.getKeyCode() == 10) {btnOk.doClick();}
     }
     
     public void keyReleased(KeyEvent ke) {}
     public void keyTyped(KeyEvent ke) {}
 
+    // Clase para añadir una nueva línea a la pantalla del PC
     public void nuevaLinea(String texto, String color) {
         labels[contadorLineas] = new JLabel(texto);
-        if (color.equals("RED")) {
-            labels[contadorLineas].setForeground(Color.RED);
-        } else if (color.equals("WHITE")) {
-            labels[contadorLineas].setForeground(Color.WHITE);
-        } else if (color.equals("GREEN")) {
-            labels[contadorLineas].setForeground(Color.GREEN);
-        } else if (color.equals("GRAY")) {
-            labels[contadorLineas].setForeground(Color.GRAY);
-        } else if (color.equals("BLUE")) {
-            labels[contadorLineas].setForeground(Color.BLUE);
-        } else {
-            labels[contadorLineas].setForeground(Color.WHITE);
-        }
+        if (color.equals("RED")) {labels[contadorLineas].setForeground(Color.RED);} 
+        else if (color.equals("WHITE")) {labels[contadorLineas].setForeground(Color.WHITE);} 
+        else if (color.equals("GREEN")) {labels[contadorLineas].setForeground(Color.GREEN);} 
+        else if (color.equals("GRAY")) {labels[contadorLineas].setForeground(Color.GRAY);} 
+        else if (color.equals("BLUE")) {labels[contadorLineas].setForeground(Color.BLUE);} 
+        else {labels[contadorLineas].setForeground(Color.WHITE);}
+        
         gbc.gridx = 0;
         gbc.gridy = contadorLineas;
         panel.add((Component)labels[contadorLineas], gbc);
         scrollPane.setViewportView(panel);
         ++contadorLineas;
-        try {
-            Thread.sleep(500);
-        }
-        catch (Exception exception) {
-            // empty catch block
-        }
+       
+        try {Thread.sleep(500);}
+        catch (Exception exception) {}
         scrollPane.getVerticalScrollBar().setValue(scrollPane.getVerticalScrollBar().getMaximum());
     }
 
+    // Clase para enviar datos al servidor
     public void enviarDatos(String datos) {
         try {
             outputStream = socketCliente.getOutputStream();
@@ -194,28 +178,24 @@ public class Cliente extends JFrame implements WindowListener, MouseListener, Ke
             SalidaDatos.writeUTF(datos);
             SalidaDatos.flush();
         }
-        catch (IOException ex) {
-            Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        catch (IOException ex) {Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);}
     }
 
+    // Clase para escuchar datos provenientes del servidor
     public void escucharDatos(Socket socket) {
         try {
             inputStream = socket.getInputStream();
             entradaDatos = new DataInputStream(inputStream);
             numeroServidor = entradaDatos.readUTF();
             boolean esNumero = true;
-            try {
-                Integer.parseInt(numeroServidor);
-            }
-            catch (Exception e) {
-                esNumero = false;
-            }
+            try {Integer.parseInt(numeroServidor);}
+            catch (Exception e) {esNumero = false;}
             if (esNumero) {
                 respuesta = Consule.Consulta(numeroSecretoCliente, numeroServidor);
                 nuevaLinea("<< " + numeroServidor + " --> " + respuesta, "GRAY");
                 enviarDatos(respuesta);
-            } else {
+            } 
+            else {
                 ++contador;
                 nuevaLinea(">>" + numeroCliente + " --> " + numeroServidor, "WHITE");
                 if (numeroServidor.equals("exploited")) {
@@ -226,7 +206,8 @@ public class Cliente extends JFrame implements WindowListener, MouseListener, Ke
                     nuevaLinea("[!] Perdiendo control de equipo...", "WHITE");
                     nuevaLinea("server@system# Lo siento", "RED");
                     cerrarTodo();
-                } else if (numeroServidor.equals("mmmm")) {
+                } 
+                else if (numeroServidor.equals("mmmm")) {
                     Ganador();
                     enviarDatos("exploited");
                     nuevaLinea("[hacked] Has hackeado al servidor", "GREEN");
@@ -236,11 +217,10 @@ public class Cliente extends JFrame implements WindowListener, MouseListener, Ke
                 }
             }
         }
-        catch (IOException ex) {
-            Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        catch (IOException ex) {Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);}
     }
 
+    // Clase a ejecutar al ganar
     public void Ganador() {
         txtNumeroCliente.setEditable(false);
         txtNumeroCliente.setBorder(raise);
@@ -248,12 +228,10 @@ public class Cliente extends JFrame implements WindowListener, MouseListener, Ke
         btnOk.setBorder(raise);
         btnOk.setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, Color.GREEN));
         btnOk.setText("Salir");
-        btnOk.addActionListener(newEvent -> {
-            setVisible(false);
-        }
-        );
+        btnOk.addActionListener(newEvent -> {setVisible(false);});
     }
 
+    // Clase a ejecutar al perder
     public void Perdedor() {
         txtNumeroCliente.setEditable(false);
         txtNumeroCliente.setBorder(raise);
@@ -261,12 +239,10 @@ public class Cliente extends JFrame implements WindowListener, MouseListener, Ke
         btnOk.setBorder(raise);
         btnOk.setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, Color.RED));
         btnOk.setText("Salir");
-        btnOk.addActionListener(newEvent -> {
-            setVisible(false);
-        }
-        );
+        btnOk.addActionListener(newEvent -> {setVisible(false);});
     }
 
+    // Clase para cerrar todo
     public void cerrarTodo() {
         try {
             opcion = false;
@@ -274,11 +250,10 @@ public class Cliente extends JFrame implements WindowListener, MouseListener, Ke
             entradaDatos.close();
             socketCliente.close();
         }
-        catch (IOException ex) {
-            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        catch (IOException ex) {Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);}
     }
 
+    // Clase de encendido de máquina
     public void Encendido() {
         nuevaLinea("[!] Iniciando sistema...", "WHITE");
         nuevaLinea("[!] Sistema iniciado", "WHITE");
@@ -288,6 +263,7 @@ public class Cliente extends JFrame implements WindowListener, MouseListener, Ke
         nuevaLinea("[process] Requerida IP de v\u00edctima", "GREEN");
     }
 
+    // Clase para almacenar la IP del servidor
     public void IP() {
         add(txtIP);
         txtIP.setBounds(170, 400, 200, 40);
@@ -303,6 +279,7 @@ public class Cliente extends JFrame implements WindowListener, MouseListener, Ke
         btnIP.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.WHITE));
     }
 
+    // Clase para la primera creación
     public void Creacion() {
         remove(btnIP);
         remove(txtIP);
@@ -319,7 +296,8 @@ public class Cliente extends JFrame implements WindowListener, MouseListener, Ke
         btnOk.setBorder(raise);
         btnOk.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.WHITE));
     }
-
+    
+    // Clase para la segunda creación
     public void Creacion2() {
         remove(btnOkk);
         remove(txtNumeroSecreto);
@@ -333,6 +311,7 @@ public class Cliente extends JFrame implements WindowListener, MouseListener, Ke
         btnOk.setForeground(Color.WHITE);
     }
 
+    // Clase para el botón de la IP
     public void BtnIP() {
         ip = txtIP.getText();
         try {
@@ -348,21 +327,17 @@ public class Cliente extends JFrame implements WindowListener, MouseListener, Ke
             });
             hilo1.start();
         }
-        catch (Exception ex) {
-            nuevaLinea(ex.getMessage(), "RED");
-        }
+        catch (Exception ex) {nuevaLinea(ex.getMessage(), "RED");}
         Creacion();
         nuevaLinea("[process] Target IP Preparado", "WHITE");
         nuevaLinea("[process] Introduzca secreto", "BLUE");
     }
 
+    // Clase para el botón
     public void BtnOK() {
         numeroCliente = txtNumeroCliente.getText();
-        if (numeroCliente.length() != 4) {
-            nuevaLinea("[ERROR] 4 d\u00edgitos", "RED");
-        } else {
-            enviarDatos(numeroCliente);
-        }
+        if (numeroCliente.length() != 4) {nuevaLinea("[ERROR] 4 d\u00edgitos", "RED");} 
+        else {enviarDatos(numeroCliente);}
     }
 
 }
