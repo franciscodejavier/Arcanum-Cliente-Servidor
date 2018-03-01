@@ -65,7 +65,7 @@ public class Servidor extends JFrame implements WindowListener, MouseListener, K
     Thread hiloBtnOkk;
 
     public Servidor() {
-      
+    	// Hilo para el botón
     	hiloBtnOkk = new Thread(new Runnable(){
             @SuppressWarnings("deprecation")
 			@Override
@@ -73,7 +73,8 @@ public class Servidor extends JFrame implements WindowListener, MouseListener, K
                 numeroSecretoServidor = txtNumeroSecreto.getText();
                 if (numeroSecretoServidor.length() != 4) {
                     nuevaLinea("[ERROR] 4 d\u00edgitos", "RED");
-                } else {
+                } 
+                else {
                     Creacion2();
                     nuevaLinea("[!] Cifrando n\u00famero secreto", "WHITE");
                     nuevaLinea("[!] N\u00famero secreto cifrado", "GREEN");
@@ -81,6 +82,7 @@ public class Servidor extends JFrame implements WindowListener, MouseListener, K
             }
         });
         
+    	// Arquitectura gráfica
         setLayout(null);
         setTitle("Arcanum Servidor");
         setLocationRelativeTo(null);
@@ -101,23 +103,20 @@ public class Servidor extends JFrame implements WindowListener, MouseListener, K
         gbc.insets = new Insets(1, 1, 1, 300);
         gbc.anchor = 18;
       
+        // Hilo de inicio
         Thread hiloInicio = new Thread(new Runnable(){
             @Override
             public void run() {
                 Encendido();
                 Creacion();
-                btnOkk.addActionListener(event -> {
-                    hiloBtnOkk.start();
-                }
-                );
-                btnOk.addActionListener(event -> {
-                    BtnOk();
-                }
-                );
+                btnOkk.addActionListener(event -> {hiloBtnOkk.start();});
+                btnOk.addActionListener(event -> {BtnOk();});
                 try {
                     socketServicio = new ServerSocket(5555);
                     nuevaLinea("Servicio en escucha en puerto: 5555", "BLUE");
                     miServicio = socketServicio.accept();
+                    
+                    // Subhilo de recepción de datos
                     Thread hilo = new Thread(new Runnable(){
                         @Override
                         public void run() {
@@ -128,26 +127,23 @@ public class Servidor extends JFrame implements WindowListener, MouseListener, K
                     });
                     hilo.start();
                 }
-                catch (Exception ex) {
-                    nuevaLinea("Error al abrir los sockets", "RED");
-                }
+                catch (Exception ex) {nuevaLinea("Error al abrir los sockets", "RED");}
             }
         });
         hiloInicio.start();
         
+        // Listeners
         addWindowListener(this);
         addMouseListener(this);
         addKeyListener(this);
         txtNumeroServidor.addKeyListener(this);
     }
 
-    public static void main(String[] args) throws NumberFormatException, IOException, ClassNotFoundException, SQLException {
-        new clienteservidor.Servidor();
-    }
+    public static void main(String[] args) throws NumberFormatException, IOException, ClassNotFoundException, SQLException {new Servidor();}
 
     @Override
     public void mouseClicked(MouseEvent me) {}
-
+    
     @Override
     public void windowActivated(WindowEvent arg0) {}
 
@@ -157,12 +153,8 @@ public class Servidor extends JFrame implements WindowListener, MouseListener, K
     @Override
     public void windowClosing(WindowEvent arg0) {
         System.exit(0);
-        try {
-            miServicio.close();
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
+        try {miServicio.close();}
+        catch (IOException e) {e.printStackTrace();}
     }
 
     public void windowDeactivated(WindowEvent arg0) {}
@@ -173,43 +165,37 @@ public class Servidor extends JFrame implements WindowListener, MouseListener, K
     public void mouseExited(MouseEvent arg0) {}
     public void mousePressed(MouseEvent arg0) {}
     public void mouseReleased(MouseEvent arg0) {}
+   
     public void keyPressed(KeyEvent ke) {
-        if (ke.getKeyCode() == 10) {
-            btnOk.doClick();
-        }
+        // Si pulsamos intro sobre el textfield, será igual que presionar sobre el botón
+    	if (ke.getKeyCode() == 10) {btnOk.doClick();}
     }
+    
     public void keyReleased(KeyEvent ke) {}
     public void keyTyped(KeyEvent ke) {}
     
+    // Método para añadir una nueva línea a la pantalla del PC
     public void nuevaLinea(String texto, String color) {
         labels[contadorLineas] = new JLabel(texto);
-        if (color.equals("RED")) {
-            labels[contadorLineas].setForeground(Color.RED);
-        } else if (color.equals("WHITE")) {
-            labels[contadorLineas].setForeground(Color.WHITE);
-        } else if (color.equals("GREEN")) {
-            labels[contadorLineas].setForeground(Color.GREEN);
-        } else if (color.equals("GRAY")) {
-            labels[contadorLineas].setForeground(Color.GRAY);
-        } else if (color.equals("BLUE")) {
-            labels[contadorLineas].setForeground(Color.BLUE);
-        } else {
-            labels[contadorLineas].setForeground(Color.WHITE);
-        }
+        if (color.equals("RED")) {labels[contadorLineas].setForeground(Color.RED);} 
+        else if (color.equals("WHITE")) {labels[contadorLineas].setForeground(Color.WHITE);} 
+        else if (color.equals("GREEN")) {labels[contadorLineas].setForeground(Color.GREEN);} 
+        else if (color.equals("GRAY")) {labels[contadorLineas].setForeground(Color.GRAY);} 
+        else if (color.equals("BLUE")) {labels[contadorLineas].setForeground(Color.BLUE);} 
+        else {labels[contadorLineas].setForeground(Color.WHITE);}
+        
         gbc.gridx = 0;
         gbc.gridy = contadorLineas;
         panel.add((Component)labels[contadorLineas], gbc);
         scrollPane.setViewportView(panel);
         ++contadorLineas;
-        try {
-            Thread.sleep(500);
-        }
-        catch (Exception exception) {
-            // empty catch block
-        }
+        
+        try {Thread.sleep(500);}
+        catch (Exception exception) {}
         scrollPane.getVerticalScrollBar().setValue(scrollPane.getVerticalScrollBar().getMaximum());
     }
 
+    // Método para enviar datos al cliente
     public void enviarDatos(String datos) {
         try {
             outputStream = miServicio.getOutputStream();
@@ -217,28 +203,26 @@ public class Servidor extends JFrame implements WindowListener, MouseListener, K
             salidaDatos.writeUTF(datos);
             salidaDatos.flush();
         }
-        catch (IOException ex) {
-            Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        catch (IOException ex) {Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);}
     }
 
+    // Método de recepción de datos
     public void recibirDatos() {
         try {
             inputStream = miServicio.getInputStream();
             entradaDatos = new DataInputStream(inputStream);
             numeroCliente = entradaDatos.readUTF();
             boolean esNumero = true;
-            try {
-                Integer.parseInt(numeroCliente);
-            }
-            catch (Exception e) {
-                esNumero = false;
-            }
+           
+            try {Integer.parseInt(numeroCliente);}
+            catch (Exception e) {esNumero = false;}
+            
             if (esNumero) {
                 respuesta = Consule.Consulta(numeroSecretoServidor, numeroCliente);
                 nuevaLinea("<< " + numeroCliente + " --> " + respuesta, "GRAY");
                 enviarDatos(respuesta);
-            } else {
+            } 
+            else {
                 ++contador;
                 nuevaLinea(">>" + numeroServidor + " --> " + numeroCliente, "WHITE");
                 if (numeroCliente.equals("exploited")) {
@@ -249,7 +233,8 @@ public class Servidor extends JFrame implements WindowListener, MouseListener, K
                     nuevaLinea("[!] Perdiendo control del servidor...", "WHITE");
                     nuevaLinea("cliente@system# Lo siento", "RED");
                     cerrarTodo();
-                } else if (numeroCliente.equals("mmmm")) {
+                } 
+                else if (numeroCliente.equals("mmmm")) {
                     Ganador();
                     enviarDatos("exploited");
                     nuevaLinea("[hacked] Has hackeado al cliente", "GREEN");
@@ -259,9 +244,7 @@ public class Servidor extends JFrame implements WindowListener, MouseListener, K
                 }
             }
         }
-        catch (IOException ex) {
-            Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        catch (IOException ex) {Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);}
     }
 
     public void Ganador() {
@@ -271,10 +254,7 @@ public class Servidor extends JFrame implements WindowListener, MouseListener, K
         btnOk.setBorder(raise);
         btnOk.setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, Color.GREEN));
         btnOk.setText("Salir");
-        btnOk.addActionListener(newEvent -> {
-            setVisible(false);
-        }
-        );
+        btnOk.addActionListener(newEvent -> {setVisible(false);});
     }
 
     public void Perdedor() {
@@ -284,10 +264,7 @@ public class Servidor extends JFrame implements WindowListener, MouseListener, K
         btnOk.setBorder(raise);
         btnOk.setBorder(BorderFactory.createMatteBorder(3, 3, 3, 3, Color.RED));
         btnOk.setText("Salir");
-        btnOk.addActionListener(newEvent -> {
-            setVisible(false);
-        }
-        );
+        btnOk.addActionListener(newEvent -> {setVisible(false);});
     }
 
     public void cerrarTodo() {
@@ -298,9 +275,7 @@ public class Servidor extends JFrame implements WindowListener, MouseListener, K
             socketServicio.close();
             miServicio.close();
         }
-        catch (IOException ex) {
-            Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        catch (IOException ex) {Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);}
     }
 
     public void Encendido() {
@@ -342,11 +317,8 @@ public class Servidor extends JFrame implements WindowListener, MouseListener, K
 
     public void BtnOk() {
         numeroServidor = txtNumeroServidor.getText();
-        if (numeroServidor.length() != 4) {
-            nuevaLinea("[ERROR] 4 d\u00edgitos", "RED");
-        } else {
-            enviarDatos(numeroServidor);
-        }
+        if (numeroServidor.length() != 4) {nuevaLinea("[ERROR] 4 d\u00edgitos", "RED");} 
+        else {enviarDatos(numeroServidor);}
     }
 }
 
