@@ -141,16 +141,10 @@ public class Servidor extends JFrame implements WindowListener, MouseListener, K
 
     public static void main(String[] args) throws NumberFormatException, IOException, ClassNotFoundException, SQLException {new Servidor();}
 
-    @Override
     public void mouseClicked(MouseEvent me) {}
-    
-    @Override
     public void windowActivated(WindowEvent arg0) {}
-
-    @Override
     public void windowClosed(WindowEvent arg0) {}
 
-    @Override
     public void windowClosing(WindowEvent arg0) {
         System.exit(0);
         try {miServicio.close();}
@@ -247,6 +241,7 @@ public class Servidor extends JFrame implements WindowListener, MouseListener, K
         catch (IOException ex) {Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);}
     }
 
+    // Clase a ejecutar al ganar
     public void Ganador() {
         txtNumeroServidor.setEditable(false);
         txtNumeroServidor.setBorder(raise);
@@ -257,6 +252,7 @@ public class Servidor extends JFrame implements WindowListener, MouseListener, K
         btnOk.addActionListener(newEvent -> {setVisible(false);});
     }
 
+    // Clase a ejecutar al perder
     public void Perdedor() {
         txtNumeroServidor.setEditable(false);
         txtNumeroServidor.setBorder(raise);
@@ -267,6 +263,7 @@ public class Servidor extends JFrame implements WindowListener, MouseListener, K
         btnOk.addActionListener(newEvent -> {setVisible(false);});
     }
 
+    // Clase para cerrar todo
     public void cerrarTodo() {
         try {
             opcion = false;
@@ -278,6 +275,7 @@ public class Servidor extends JFrame implements WindowListener, MouseListener, K
         catch (IOException ex) {Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);}
     }
 
+    // Clase de encendido de máquina
     public void Encendido() {
         nuevaLinea("[!] Iniciando sistema...", "WHITE");
         nuevaLinea("[!] Sistema iniciado", "WHITE");
@@ -287,6 +285,7 @@ public class Servidor extends JFrame implements WindowListener, MouseListener, K
         nuevaLinea("[process] Introduzca el secreto", "BLUE");
     }
 
+    // Clase de primera creación
     public void Creacion() {
         add(txtNumeroSecreto);
         txtNumeroSecreto.setBounds(170, 400, 200, 40);
@@ -302,6 +301,7 @@ public class Servidor extends JFrame implements WindowListener, MouseListener, K
         btnOk.setBorder(BorderFactory.createMatteBorder(2, 2, 2, 2, Color.WHITE));
     }
 
+    // Clase de segunda creación
     public void Creacion2() {
         remove(btnOkk);
         remove(txtNumeroSecreto);
@@ -315,6 +315,7 @@ public class Servidor extends JFrame implements WindowListener, MouseListener, K
         btnOk.setForeground(Color.WHITE);
     }
 
+    // Clase de botón
     public void BtnOk() {
         numeroServidor = txtNumeroServidor.getText();
         if (numeroServidor.length() != 4) {nuevaLinea("[ERROR] 4 d\u00edgitos", "RED");} 
