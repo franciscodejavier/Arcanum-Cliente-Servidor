@@ -68,6 +68,9 @@ public class Servidor extends JFrame implements WindowListener, MouseListener, K
     static boolean existsNumeroSecretoCliente = false;
     private boolean opcion = true;
     Thread hiloBtnOkk;
+    
+    // key
+	static String key = "Bar12345Bar12345";
 
     public Servidor() {
     	// Hilo para el botón
@@ -126,7 +129,12 @@ public class Servidor extends JFrame implements WindowListener, MouseListener, K
                         @Override
                         public void run() {
                             while (opcion) {
-                                recibirDatos();
+                                try {
+									recibirDatos();
+								} catch (Exception e) {
+									// TODO Auto-generated catch block
+									e.printStackTrace();
+								}
                             }
                         }
                     });
@@ -206,11 +214,12 @@ public class Servidor extends JFrame implements WindowListener, MouseListener, K
     }
 
     // Método de recepción de datos
-    public void recibirDatos() {
+    public void recibirDatos() throws Exception {
         try {
             inputStream = miServicio.getInputStream();
             entradaDatos = new DataInputStream(inputStream);
-            numeroCliente = entradaDatos.readUTF();
+            String descifrar = entradaDatos.readUTF();
+            String numeroCliente = decrypt(descifrar, key);
             boolean esNumero = true;
            
             try {Integer.parseInt(numeroCliente);}

@@ -24,6 +24,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -70,6 +71,11 @@ public class Cliente extends JFrame implements WindowListener, MouseListener, Ke
     static boolean opcion = true;
     static String ip = "";
     Thread hiloBtnOkk;
+    
+    // key
+	static String texto, cifrado, eco;
+	static SecretKey secretKey;
+    static String key = "Bar12345Bar12345";
 
     public Cliente() {
     	// Hilo para el botón
@@ -117,7 +123,9 @@ public class Cliente extends JFrame implements WindowListener, MouseListener, Ke
                 IP();
                 btnIP.addActionListener(event -> {BtnIP();});
                 btnOkk.addActionListener(event -> {hiloBtnOkk.start();});
-                btnOk.addActionListener(event -> {BtnOK();});
+                btnOk.addActionListener(event -> {try {BtnOK();} 
+                catch (Exception e) {e.printStackTrace();
+				}});
             }
         });
         hiloInicio.start();
@@ -174,18 +182,19 @@ public class Cliente extends JFrame implements WindowListener, MouseListener, Ke
     }
 
     // Clase para enviar datos al servidor
-    public void enviarDatos(String datos) {
+    public void enviarDatos(String datos) throws Exception {
         try {
+        	cifrado = encrypt(datos, key);
             outputStream = socketCliente.getOutputStream();
             SalidaDatos = new DataOutputStream(outputStream);
-            SalidaDatos.writeUTF(datos);
+            SalidaDatos.writeUTF(cifrado);
             SalidaDatos.flush();
         }
         catch (IOException ex) {Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);}
     }
 
     // Clase para escuchar datos provenientes del servidor
-    public void escucharDatos(Socket socket) {
+    public void escucharDatos(Socket socket) throws Exception {
         try {
             inputStream = socket.getInputStream();
             entradaDatos = new DataInputStream(inputStream);
@@ -324,7 +333,8 @@ public class Cliente extends JFrame implements WindowListener, MouseListener, Ke
                 @Override
                 public void run() {
                     while (Cliente.opcion) {
-                        escucharDatos(socketCliente);
+                        try {escucharDatos(socketCliente);} 
+                        catch (Exception e) {e.printStackTrace();}
                     }
                 }
             });
@@ -337,7 +347,7 @@ public class Cliente extends JFrame implements WindowListener, MouseListener, Ke
     }
 
     // Clase para el botón
-    public void BtnOK() {
+    public void BtnOK() throws Exception {
         numeroCliente = txtNumeroCliente.getText();
         if (numeroCliente.length() != 4) {nuevaLinea("[ERROR] 4 d\u00edgitos", "RED");} 
         else {enviarDatos(numeroCliente);}
