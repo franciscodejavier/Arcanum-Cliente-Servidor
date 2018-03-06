@@ -40,6 +40,9 @@ import javax.swing.border.Border;
 import matematicas.Consule;
 import matematicas.Fondo;
 
+import org.apache.commons.net.ftp.FTP;
+import org.apache.commons.net.ftp.FTPClient;
+
 public class Cliente extends JFrame implements WindowListener, MouseListener, KeyListener {
     private static final long serialVersionUID = 1;
     
@@ -77,7 +80,7 @@ public class Cliente extends JFrame implements WindowListener, MouseListener, Ke
 	static String texto, cifrado, eco;
 	static SecretKey secretKey;
     static String key = "Bar12345Bar12345";
-
+    
     public Cliente() {
     	// Hilo para el botón
         hiloBtnOkk = new Thread(new Runnable(){
@@ -120,7 +123,8 @@ public class Cliente extends JFrame implements WindowListener, MouseListener, Ke
         Thread hiloInicio = new Thread(new Runnable(){
             @Override
             public void run() {
-                Encendido();
+                connftp();
+            	Encendido();
                 IP();
                 btnIP.addActionListener(event -> {BtnIP();});
                 btnOkk.addActionListener(event -> {hiloBtnOkk.start();});
@@ -388,6 +392,25 @@ public class Cliente extends JFrame implements WindowListener, MouseListener, Ke
 
 		return decrypted;
 	}
+
+    public static void connftp() {
+    	FTPClient client = new FTPClient();
+        String servidorftp = "192.168.1.107";
+        String usuarioftp = "javier";
+        String passftp = "";
+    	try {
+    		  client.connect(servidorftp);
+    		  boolean login = client.login(usuarioftp,passftp);
+    		  
+    		  System.out.println(login);
+    		  client.setFileType(FTP.BINARY_FILE_TYPE);
+    		  
+    		  client.logout();
+    	      client.disconnect();
+    	} 
+    	catch (IOException ioe) {}
+    }
+            
 
 }
 
