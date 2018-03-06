@@ -24,6 +24,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.crypto.Cipher;
+import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import javax.swing.BorderFactory;
@@ -198,7 +199,11 @@ public class Cliente extends JFrame implements WindowListener, MouseListener, Ke
         try {
             inputStream = socket.getInputStream();
             entradaDatos = new DataInputStream(inputStream);
-            numeroServidor = entradaDatos.readUTF();
+            
+            String descifrar = entradaDatos.readUTF();
+            numeroServidor = decrypt(descifrar, key);
+            //numeroServidor = entradaDatos.readUTF();
+            
             boolean esNumero = true;
             try {Integer.parseInt(numeroServidor);}
             catch (Exception e) {esNumero = false;}
@@ -362,6 +367,26 @@ public class Cliente extends JFrame implements WindowListener, MouseListener, Ke
 		Base64.Encoder encoder = Base64.getEncoder();
 		String encryptedString = encoder.encodeToString(encrypted);
 		return encryptedString;
+	}
+    
+    // Clase para cifrado
+    public static SecretKey getSecretEncryptionKey() throws Exception {
+		KeyGenerator generator = KeyGenerator.getInstance("AES");
+		generator.init(128); // The AES key size in number of bits
+		SecretKey secKey = generator.generateKey();
+
+		return secKey;
+	}
+    // Clase para descifrado
+    public static String decrypt(String strEncrypted, String strKey) throws Exception {
+		String decrypted = "";
+		SecretKeySpec skeyspec = new SecretKeySpec(strKey.getBytes(), "AES");
+		Base64.Decoder decoder = Base64.getDecoder();
+		Cipher cipher = Cipher.getInstance("AES");
+		cipher.init(Cipher.DECRYPT_MODE, skeyspec);
+		decrypted = new String(cipher.doFinal(decoder.decode(strEncrypted)));
+
+		return decrypted;
 	}
 
 }

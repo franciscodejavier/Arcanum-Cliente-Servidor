@@ -70,7 +70,9 @@ public class Servidor extends JFrame implements WindowListener, MouseListener, K
     Thread hiloBtnOkk;
     
     // key
-	static String key = "Bar12345Bar12345";
+ 	static String texto, cifrado, eco;
+ 	static SecretKey secretKey;
+    static String key = "Bar12345Bar12345";
 
     public Servidor() {
     	// Hilo para el botón
@@ -118,7 +120,9 @@ public class Servidor extends JFrame implements WindowListener, MouseListener, K
                 Encendido();
                 Creacion();
                 btnOkk.addActionListener(event -> {hiloBtnOkk.start();});
-                btnOk.addActionListener(event -> {BtnOk();});
+                btnOk.addActionListener(event -> {
+                	try {BtnOk();} 
+                	catch (Exception e) {e.printStackTrace();}});
                 try {
                     socketServicio = new ServerSocket(5555);
                     nuevaLinea("Servicio en escucha en puerto: 5555", "BLUE");
@@ -203,12 +207,13 @@ public class Servidor extends JFrame implements WindowListener, MouseListener, K
     }
 
     // Método para enviar datos al cliente
-    public void enviarDatos(String datos) {
+    public void enviarDatos(String datos) throws Exception {
         try {
-            outputStream = miServicio.getOutputStream();
-            salidaDatos = new DataOutputStream(outputStream);
-            salidaDatos.writeUTF(datos);
-            salidaDatos.flush();
+        	cifrado = encrypt(datos, key);
+        	outputStream = miServicio.getOutputStream();
+        	salidaDatos = new DataOutputStream(outputStream);
+        	salidaDatos.writeUTF(cifrado);
+        	salidaDatos.flush();
         }
         catch (IOException ex) {Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);}
     }
@@ -220,6 +225,7 @@ public class Servidor extends JFrame implements WindowListener, MouseListener, K
             entradaDatos = new DataInputStream(inputStream);
             String descifrar = entradaDatos.readUTF();
             String numeroCliente = decrypt(descifrar, key);
+            //String numeroCliente = entradaDatos.readUTF();
             boolean esNumero = true;
            
             try {Integer.parseInt(numeroCliente);}
@@ -330,11 +336,22 @@ public class Servidor extends JFrame implements WindowListener, MouseListener, K
     }
 
     // Clase de botón
-    public void BtnOk() {
+    public void BtnOk() throws Exception {
         numeroServidor = txtNumeroServidor.getText();
         if (numeroServidor.length() != 4) {nuevaLinea("[ERROR] 4 d\u00edgitos", "RED");} 
         else {enviarDatos(numeroServidor);}
     }
+    
+    // Clase para cifrar
+    public static String encrypt(String strClearText, String strKey) throws Exception {
+		SecretKeySpec skeyspec = new SecretKeySpec(strKey.getBytes(), "AES");
+		Cipher cipher = Cipher.getInstance("AES");
+		cipher.init(Cipher.ENCRYPT_MODE, skeyspec);
+		byte[] encrypted = cipher.doFinal(strClearText.getBytes());
+		Base64.Encoder encoder = Base64.getEncoder();
+		String encryptedString = encoder.encodeToString(encrypted);
+		return encryptedString;
+	}
     
     // Clase para cifrado
     public static SecretKey getSecretEncryptionKey() throws Exception {
