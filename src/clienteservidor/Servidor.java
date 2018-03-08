@@ -11,8 +11,11 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -29,13 +32,19 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
+
+import org.apache.commons.net.ftp.FTP;
+import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.net.ftp.FTPFile;
 
 import matematicas.Consule;
 import matematicas.Fondo;
@@ -74,6 +83,15 @@ public class Servidor extends JFrame implements WindowListener, MouseListener, K
  	static SecretKey secretKey;
     static String key = "Bar12345Bar12345";
 
+    // ftp
+    static FTPClient client = new FTPClient();
+    static String servidorftp = "192.168.1.108";
+    static String usuarioftp = "secreto";
+    static String passftp = "b6qeyuge";
+	static String direcInicial = "/";
+	static String direcSelec = direcInicial;
+	static String ficheroSelec = "";
+    
     public Servidor() {
     	// Hilo para el botón
     	hiloBtnOkk = new Thread(new Runnable(){
@@ -247,6 +265,7 @@ public class Servidor extends JFrame implements WindowListener, MouseListener, K
                     nuevaLinea("[!] Perdiendo control del servidor...", "WHITE");
                     nuevaLinea("cliente@system# Lo siento", "RED");
                     cerrarTodo();
+                    new HalldelaFama();
                 } 
                 else if (numeroCliente.equals("mmmm")) {
                     Ganador();
@@ -254,7 +273,12 @@ public class Servidor extends JFrame implements WindowListener, MouseListener, K
                     nuevaLinea("[hacked] Has hackeado al cliente", "GREEN");
                     nuevaLinea("[!] Intentos realizados " + contador, "WHITE");
                     nuevaLinea("cliente@system# Enhorabuena", "GREEN");
+                    // CODIGO FTP
+                	connftp();
+                	subirftp();
+                	cerrarftp();
                     cerrarTodo();
+                    new HalldelaFama();
                 }
             }
         }
@@ -373,5 +397,52 @@ public class Servidor extends JFrame implements WindowListener, MouseListener, K
 
 		return decrypted;
 	}
+    
+    public static void connftp() {
+    	try {
+    		  client.connect(servidorftp);
+    		  client.login(usuarioftp,passftp);
+    	} 
+    	catch (IOException ioe) {}
+    }
+            
+    @SuppressWarnings("unused")
+	private boolean subirfichero(String archivo, String soloNombre) throws IOException {
+		client.setFileType(FTP.BINARY_FILE_TYPE);
+		BufferedInputStream in = new BufferedInputStream(new FileInputStream(archivo));
+		boolean ok = false;
+
+		client.changeWorkingDirectory(direcSelec);
+		if (client.storeFile(soloNombre, in)) {
+
+			JOptionPane.showMessageDialog(null, "Enhorabuena, campeón. Tu reliquia ha sido subida.");
+			FTPFile[] ff2 = null;
+			ff2 = client.listFiles();
+			ok = true;
+		} 
+		return ok;
+	}
+
+    public void subirftp() {
+    	JFileChooser f;
+		File file;
+		f = new JFileChooser();
+		f.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		f.setDialogTitle("¡Selecciona un archivo a subir, campéon!");
+
+		int returnVal = f.showDialog(f, "Cargar");
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			file = f.getSelectedFile();
+			String archivo = file.getAbsolutePath();
+			String nombreArchivo = file.getName();
+			try {subirfichero(archivo, nombreArchivo);} 
+			catch (IOException e1) {e1.printStackTrace();}
+		}
+    }
+    
+    public void cerrarftp() throws IOException {
+    	client.logout();
+    	client.disconnect();
+    }
 }
 

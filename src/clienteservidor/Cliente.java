@@ -11,8 +11,11 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -29,8 +32,10 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
@@ -42,6 +47,7 @@ import matematicas.Fondo;
 
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.net.ftp.FTPFile;
 
 public class Cliente extends JFrame implements WindowListener, MouseListener, KeyListener {
     private static final long serialVersionUID = 1;
@@ -81,6 +87,15 @@ public class Cliente extends JFrame implements WindowListener, MouseListener, Ke
 	static SecretKey secretKey;
     static String key = "Bar12345Bar12345";
     
+    // ftp
+    static FTPClient client = new FTPClient();
+    static String servidorftp = "192.168.1.108";
+    static String usuarioftp = "secreto";
+    static String passftp = "b6qeyuge";
+	static String direcInicial = "/";
+	static String direcSelec = direcInicial;
+	static String ficheroSelec = "";
+
     public Cliente() {
     	// Hilo para el botón
         hiloBtnOkk = new Thread(new Runnable(){
@@ -123,9 +138,8 @@ public class Cliente extends JFrame implements WindowListener, MouseListener, Ke
         Thread hiloInicio = new Thread(new Runnable(){
             @Override
             public void run() {
-                connftp();
             	Encendido();
-                IP();
+            	IP();
                 btnIP.addActionListener(event -> {BtnIP();});
                 btnOkk.addActionListener(event -> {hiloBtnOkk.start();});
                 btnOk.addActionListener(event -> {try {BtnOK();} 
@@ -227,6 +241,7 @@ public class Cliente extends JFrame implements WindowListener, MouseListener, Ke
                     nuevaLinea("[!] Perdiendo control de equipo...", "WHITE");
                     nuevaLinea("server@system# Lo siento", "RED");
                     cerrarTodo();
+                    new HalldelaFama();
                 } 
                 else if (numeroServidor.equals("mmmm")) {
                     Ganador();
@@ -234,7 +249,12 @@ public class Cliente extends JFrame implements WindowListener, MouseListener, Ke
                     nuevaLinea("[hacked] Has hackeado al servidor", "GREEN");
                     nuevaLinea("[!] Intentos realizados " + contador, "WHITE");
                     nuevaLinea("server@system# Enhorabuena", "GREEN");
+                    // CODIGO FTP
+                	connftp();
+                	subirftp();
+                	cerrarftp();
                     cerrarTodo();
+                    new HalldelaFama();
                 }
             }
         }
@@ -394,23 +414,50 @@ public class Cliente extends JFrame implements WindowListener, MouseListener, Ke
 	}
 
     public static void connftp() {
-    	FTPClient client = new FTPClient();
-        String servidorftp = "192.168.1.107";
-        String usuarioftp = "javier";
-        String passftp = "";
     	try {
     		  client.connect(servidorftp);
-    		  boolean login = client.login(usuarioftp,passftp);
-    		  
-    		  System.out.println(login);
-    		  client.setFileType(FTP.BINARY_FILE_TYPE);
-    		  
-    		  client.logout();
-    	      client.disconnect();
+    		  client.login(usuarioftp,passftp);
     	} 
     	catch (IOException ioe) {}
     }
             
+    @SuppressWarnings("unused")
+	private boolean subirfichero(String archivo, String soloNombre) throws IOException {
+		client.setFileType(FTP.BINARY_FILE_TYPE);
+		BufferedInputStream in = new BufferedInputStream(new FileInputStream(archivo));
+		boolean ok = false;
 
+		client.changeWorkingDirectory(direcSelec);
+		if (client.storeFile(soloNombre, in)) {
+
+			JOptionPane.showMessageDialog(null, "Tu archivo ha sido subido satisfactoriamente al Hall de la Fama");
+			FTPFile[] ff2 = null;
+			ff2 = client.listFiles();
+			ok = true;
+		} 
+		return ok;
+	}
+
+    public void subirftp() {
+    	JFileChooser f;
+		File file;
+		f = new JFileChooser();
+		f.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		f.setDialogTitle("¡Selecciona un archivo a subir al Hall de la Fama!");
+
+		int returnVal = f.showDialog(f, "Cargar");
+		if (returnVal == JFileChooser.APPROVE_OPTION) {
+			file = f.getSelectedFile();
+			String archivo = file.getAbsolutePath();
+			String nombreArchivo = file.getName();
+			try {subirfichero(archivo, nombreArchivo);} 
+			catch (IOException e1) {e1.printStackTrace();}
+		}
+    }
+    
+    public void cerrarftp() throws IOException {
+    	client.logout();
+    	client.disconnect();
+    }
 }
 
